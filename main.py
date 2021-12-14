@@ -2,6 +2,7 @@
 import time
 import math
 
+thisYear = int(__import__('datetime').date.today().strftime('%Y'))
 
 def format_filename(day, year):
   int(day)
@@ -63,7 +64,7 @@ def get_data(day, year):
   return data
 
 
-def run(day, year=__import__('datetime').date.today().strftime('%Y')):
+def run(day, year=thisYear):
   day = 'D' + str(day).zfill(2)
   print(f"AOC {year} - Day: {day}")
 
@@ -79,7 +80,8 @@ def run(day, year=__import__('datetime').date.today().strftime('%Y')):
 
 
 def setup():
-  pass
+  for i in range(2015, thisYear + 1):
+    print(f"Setting up {i}")
 
 
 # ------------------------ RUN CODE BELOW ------------------------
