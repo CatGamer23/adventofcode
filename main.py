@@ -115,4 +115,4 @@ def setup():
 
 # ------------------------ RUN CODE BELOW ------------------------
 # setup()
-run(1)
+run(input("Day: "))
