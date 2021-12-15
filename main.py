@@ -2,14 +2,18 @@
 import time
 import math
 
+cookieValue = "53616c7465645f5ff382402f79ee918526143b743435f7c90123eb1ba52a9b706ec2b764658621673156e368b44dac0f"
+url = "https://adventofcode.com/{}/day/{}/"  # .format(year, day)
 thisYear = int(__import__('datetime').date.today().strftime('%Y'))
+initText = \
+"""
+def part1(data):
+  return None
 
-def format_filename(day, year):
-  int(day)
-  day = 'D' + str(day).zfill(2)
-  year = 'Y' + str(year)
-  return f'./{year}/{day}'
 
+def part2(data):
+  return None
+"""
 
 def format_runtime(ms):
   # Microseconds
@@ -52,7 +56,7 @@ def run_part(part: str, mod: str, data: str):
 
 def get_data(day, year):
   # Try to find the filename
-  fname = f'./{year}/Inputs/{day} Input.txt'
+  fname = f'./{year}/Inputs/Day {day} Input.txt'
   try:
     with open(fname) as f:
       data = f.readlines()
@@ -65,10 +69,8 @@ def get_data(day, year):
 
 
 def run(day, year=thisYear):
-  day = 'D' + str(day).zfill(2)
+  day = str(day).zfill(2)
   print(f"AOC {year} - Day: {day}")
-
-  year = 'Y' + str(year)
 
   mod = __import__('importlib').import_module(f'{year}.{day}')
   data = get_data(day, year)
@@ -80,10 +82,16 @@ def run(day, year=thisYear):
 
 
 def setup():
-  for i in range(2015, thisYear + 1):
-    print(f"Setting up {i}")
+  # for year in range(2015, thisYear + 1):
+  year = 2021
+  for day in range(1, 26):
+    with open(f'./{year}/{day}.py', 'w') as f:
+      f.write(initText)
+    # print(f"Setting up {year} - Day {day}")
+    # print(url.format(year, day))
 
 
 # ------------------------ RUN CODE BELOW ------------------------
 # run(1)
 setup()
+run(1)
