@@ -107,7 +107,7 @@ def setup():
     with open(f'./{year}/{day}.py', 'w') as f:
       f.write(initText)
     with open(f'./{year}/Inputs/Day {day} Input.txt', 'w') as f:
-      f.write(inputText)
+      f.write(inputReq.text)
 
 
 # ------------------------ RUN CODE BELOW ------------------------
