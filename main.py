@@ -1,12 +1,16 @@
 # RUN AT END OF FILE, NOT HERE
 import time
 import math
+import requests
+import os
 
 cookieValue = "53616c7465645f5ff382402f79ee918526143b743435f7c90123eb1ba52a9b706ec2b764658621673156e368b44dac0f"
+errorMsg = "Please don't repeatedly request this endpoint before it unlocks! The calendar countdown is synchronized with the server time; the link will be enabled on the calendar the instant this puzzle becomes available."
+
 url = "https://adventofcode.com/{}/day/{}/"  # .format(year, day)
 thisYear = int(__import__('datetime').date.today().strftime('%Y'))
 initText = \
-"""
+    """
 def part1(data):
   return None
 
@@ -14,6 +18,7 @@ def part1(data):
 def part2(data):
   return None
 """
+
 
 def format_runtime(ms):
   # Microseconds
@@ -85,13 +90,26 @@ def setup():
   # for year in range(2015, thisYear + 1):
   year = 2021
   for day in range(1, 26):
+    day = str(day).zfill(2)
+    inputReq = requests.get(url.format(year, day) + "input", cookies={
+      "session": cookieValue
+    })
+
+    if inputReq.status_code == 404:
+      print(f"Day {day} is locked")
+      break
+
+    if not os.path.exists(f'./{year}/'):
+      os.mkdir(f'./{year}/')
+    if not os.path.exists(f'./{year}/Inputs/'):
+      os.mkdir(f'./{year}/Inputs/')
+
     with open(f'./{year}/{day}.py', 'w') as f:
       f.write(initText)
-    # print(f"Setting up {year} - Day {day}")
-    # print(url.format(year, day))
+    with open(f'./{year}/Inputs/Day {day} Input.txt', 'w') as f:
+      f.write(inputText)
 
 
 # ------------------------ RUN CODE BELOW ------------------------
 # run(1)
 setup()
-run(1)
