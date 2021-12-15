@@ -85,7 +85,7 @@ def run(day, year=thisYear):
 
 
 def setup():
-  for year in range(2015, thisYear + 2):
+  for year in range(2015, thisYear + 1):
     for day in range(1, 26):
       day = str(day).zfill(2)
       if not os.path.exists(f'./{year}/'):
