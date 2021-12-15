@@ -4,14 +4,12 @@ import math
 import requests
 import os
 
-cookieValue = "53616c7465645f5ff382402f79ee918526143b743435f7c90123eb1ba52a9b706ec2b764658621673156e368b44dac0f"
+cookieValue = "53616c7465645f5f5bc5482721d50f0d3ce903dcfa07219823a5cac31e1da7fd61d2cd2f5d9756fc790e0f22429ecaca"
 errorMsg = "Please don't repeatedly request this endpoint before it unlocks! The calendar countdown is synchronized with the server time; the link will be enabled on the calendar the instant this puzzle becomes available."
 
 url = "https://adventofcode.com/{}/day/{}/"  # .format(year, day)
 thisYear = int(__import__('datetime').date.today().strftime('%Y'))
-initText = \
-    """
-def part1(data):
+initText = """def part1(data):
   return None
 
 
@@ -87,27 +85,32 @@ def run(day, year=thisYear):
 
 
 def setup():
-  # for year in range(2015, thisYear + 1):
-  year = 2021
-  for day in range(1, 26):
-    day = str(day).zfill(2)
-    inputReq = requests.get(url.format(year, day) + "input", cookies={
-      "session": cookieValue
-    })
+  for year in range(2015, thisYear + 2):
+    for day in range(1, 26):
+      day = str(day).zfill(2)
+      if not os.path.exists(f'./{year}/'):
+        os.mkdir(f'./{year}/')
+      if not os.path.exists(f'./{year}/Inputs/'):
+        os.mkdir(f'./{year}/Inputs/')
 
-    if inputReq.status_code == 404:
-      print(f"Day {day} is locked")
-      break
+      if not os.path.exists(f'./{year}/{day}.py'):
+        with open(f'./{year}/{day}.py', 'w') as f:
+          f.write(initText)
 
-    if not os.path.exists(f'./{year}/'):
-      os.mkdir(f'./{year}/')
-    if not os.path.exists(f'./{year}/Inputs/'):
-      os.mkdir(f'./{year}/Inputs/')
+      if not os.path.exists(f'./{year}/Inputs/Day {day} Input.txt'):
+        inputReq = requests.get(url.format(year, day.strip("0")) + "input", cookies={
+            "session": cookieValue
+        })
 
-    with open(f'./{year}/{day}.py', 'w') as f:
-      f.write(initText)
-    with open(f'./{year}/Inputs/Day {day} Input.txt', 'w') as f:
-      f.write(inputReq.text)
+        if inputReq.status_code == 404:
+          print(f"Year {year} Day {day} is locked")
+          break
+
+        with open(f'./{year}/Inputs/Day {day} Input.txt', 'w') as f:
+          f.write(inputReq.text)
+    else:
+      continue
+    break
 
 
 # ------------------------ RUN CODE BELOW ------------------------
