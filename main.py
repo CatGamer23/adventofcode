@@ -113,4 +113,9 @@ def setup():
 
 # ------------------------ RUN CODE BELOW ------------------------
 # setup()
-run(input("Day: "))
+day = input("Day: ")
+if day <= 25:
+  os.system('cls' if os.name == 'nt' else 'clear')
+  run(day)
+else:
+  print("Day must be between 1 and 25")

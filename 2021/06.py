@@ -10,6 +10,7 @@ def part1(data):
         laternFishes[i] -= 1
   return len(laternFishes)
 
+
 def part2(data):
   laternFishes = data[0].split(',')
   for _ in range(256):
