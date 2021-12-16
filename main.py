@@ -5,8 +5,6 @@ import requests
 import os
 
 cookieValue = "53616c7465645f5f5bc5482721d50f0d3ce903dcfa07219823a5cac31e1da7fd61d2cd2f5d9756fc790e0f22429ecaca"
-errorMsg = "Please don't repeatedly request this endpoint before it unlocks! The calendar countdown is synchronized with the server time; the link will be enabled on the calendar the instant this puzzle becomes available."
-
 url = "https://adventofcode.com/{}/day/{}/"  # .format(year, day)
 thisYear = int(__import__('datetime').date.today().strftime('%Y'))
 initText = """def part1(data):
