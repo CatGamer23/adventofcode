@@ -1,13 +1,23 @@
 def part1(data):
-  laternFishes = data[0]
-  for _ in range(1):
-    for fish in laternFishes.split(','):
-      fish = int(fish)
-      if fish == 0:
-        laternFishes += ",8"
+  laternFishes = data[0].split(',')
+  for _ in range(80):
+    for i in range(len(laternFishes)):
+      laternFishes[i] = int(laternFishes[i])
+      if laternFishes[i] == 0:
+        laternFishes[i] = 6
+        laternFishes.append(8)
       else:
-        fish -= 1
-  return len(laternFishes.split(','))
+        laternFishes[i] -= 1
+  return len(laternFishes)
 
 def part2(data):
-  return None
+  laternFishes = data[0].split(',')
+  for _ in range(256):
+    for i in range(len(laternFishes)):
+      laternFishes[i] = int(laternFishes[i])
+      if laternFishes[i] == 0:
+        laternFishes[i] = 6
+        laternFishes.append(8)
+      else:
+        laternFishes[i] -= 1
+  return len(laternFishes)
