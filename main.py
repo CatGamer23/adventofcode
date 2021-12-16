@@ -114,7 +114,7 @@ def setup():
 # ------------------------ RUN CODE BELOW ------------------------
 # setup()
 day = input("Day: ")
-if day <= 25:
+if int(day) <= 25:
   os.system('cls' if os.name == 'nt' else 'clear')
   run(day)
 else:
