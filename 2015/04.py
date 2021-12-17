@@ -18,4 +18,4 @@ def part2(data):
     if md5_hash.startswith('000000'):
       break
     count += 1
-  return md5_hash
+  return count
