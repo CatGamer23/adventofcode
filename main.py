@@ -116,6 +116,6 @@ def setup():
 day = input("Day: ")
 if int(day) <= 25:
   os.system('cls' if os.name == 'nt' else 'clear')
-  run(day)
+  run(day, 2015)
 else:
   print("Day must be between 1 and 25")
