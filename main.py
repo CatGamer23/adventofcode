@@ -113,9 +113,14 @@ def setup():
 
 # ------------------------ RUN CODE BELOW ------------------------
 # setup()
-day = input("Day: ")
-if int(day) <= 25:
-  os.system('cls' if os.name == 'nt' else 'clear')
-  run(day, 2015)
-else:
-  print("Day must be between 1 and 25")
+try:
+  day = input("Day: ")
+  if int(day) <= 25:
+    os.system('cls' if os.name == 'nt' else 'clear')
+    run(day, 2015)
+
+except ValueError:
+  print("Day must be an integer from 1 to 25")
+
+except KeyboardInterrupt:
+  print("Exiting...")
