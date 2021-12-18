@@ -123,4 +123,4 @@ except ValueError:
   print("Day must be an integer from 1 to 25")
 
 except KeyboardInterrupt:
-  print("\nExiting...")
+  print("Exiting...")
