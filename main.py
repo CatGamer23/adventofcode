@@ -1,4 +1,5 @@
 # RUN AT END OF FILE, NOT HERE
+import itertools
 import time
 import math
 import requests
@@ -56,7 +57,7 @@ def run_part(part: str, mod: str, data: str):
     return 0
 
 
-def get_data(day, year):
+def get_data(day: int, year: int):
   # Try to find the filename
   fname = f'./{year}/Inputs/Day {day} Input.txt'
   try:
@@ -70,7 +71,22 @@ def get_data(day, year):
   return data
 
 
-def run(day, year=thisYear):
+def run(year: int = thisYear):
+  try:
+    day = input("Day: ")
+    if int(day) <= 25:
+      execute(day, year)
+
+  except ValueError:
+    print("Day must be an integer from 1 to 25")
+
+  except KeyboardInterrupt:
+    print("Exiting...")
+
+
+def execute(day: int, year: int):
+  os.system('cls' if os.name == 'nt' else 'clear')
+
   day = str(day).zfill(2)
   print(f"AOC {year} - Day: {day}")
 
@@ -84,8 +100,14 @@ def run(day, year=thisYear):
 
 
 def setup():
-  pass
-  # for year in range(2015, thisYear + 1):
+  for year, day in itertools.product(range(2015, thisYear + 1), range(1, 26)):
+    day = str(day).zfill(2)
+
+    if not os.path.exists(f'./{year}/'):
+      os.mkdir(f'./{year}/')
+    if not os.path.exists(f'./{year}/Inputs/'):
+      os.mkdir(f'./{year}/Inputs/')
+
   #   for day in range(1, 26):
   #     day = str(day).zfill(2)
   #     if not os.path.exists(f'./{year}/'):
@@ -93,21 +115,22 @@ def setup():
   #     if not os.path.exists(f'./{year}/Inputs/'):
   #       os.mkdir(f'./{year}/Inputs/')
 
-  #     if not os.path.exists(f'./{year}/{day}.py'):
-  #       with open(f'./{year}/{day}.py', 'w') as f:
-  #         f.write(initText)
+    if not os.path.exists(f'./{year}/{day}.py'):
+      with open(f'./{year}/{day}.py', 'w') as f:
+        f.write(initText)
 
-  #     if not os.path.exists(f'./{year}/Inputs/Day {day} Input.txt'):
-  #       inputReq = requests.get(url.format(year, day.strip("0")) + "input", cookies={
-  #           "session": cookieValue
-  #       })
+    if not os.path.exists(f'./{year}/Inputs/Day {day} Input.txt'):
+      # inputReq = requests.get(url.format(year, day.strip("0")) + "input", cookies={
+      #     "session": cookieValue
+      # })
 
-  #       if inputReq.status_code == 404:
-  #         print(f"Year {year} Day {day} is locked")
-  #         break
+      # if inputReq.status_code == 404:
+      #   print(f"Year {year} Day {day} is locked")
+      #   break
 
-  #       with open(f'./{year}/Inputs/Day {day} Input.txt', 'w') as f:
-  #         f.write(inputReq.text)
+      with open(f'./{year}/Inputs/Day {day} Input.txt', 'w') as f:
+        f.close()
+
   #   else:
   #     continue
   #   break
@@ -115,14 +138,4 @@ def setup():
 
 # ------------------------ RUN CODE BELOW ------------------------
 # setup()
-try:
-  day = input("Day: ")
-  if int(day) <= 25:
-    os.system('cls' if os.name == 'nt' else 'clear')
-    run(day, 2015)
-
-except ValueError:
-  print("Day must be an integer from 1 to 25")
-
-except KeyboardInterrupt:
-  print("Exiting...")
+run()
