@@ -74,14 +74,14 @@ def get_data(day: int, year: int):
 def run(year: int = thisYear):
   try:
     day = input("Day: ")
-    if int(day) <= 25:
-      execute(day, year)
+    if int(day) > 25 or int(day) <= 0: raise ValueError
+    execute(day, year)
 
   except ValueError:
     print("Day must be an integer from 1 to 25")
 
   except KeyboardInterrupt:
-    print("Exiting...")
+    print("\nExiting...")
 
 
 def execute(day: int, year: int):
