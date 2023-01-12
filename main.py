@@ -13,8 +13,7 @@ initText = """def part1(data):
 
 
 def part2(data):
-  return None
-"""
+  return None"""
 
 
 def format_runtime(ms):
@@ -126,5 +125,5 @@ def setup():
 
 # ------------------------ RUN CODE BELOW ------------------------
 os.system('cls' if os.name == 'nt' else 'clear')
-# setup()
-run(2022)
+setup()
+# run(2022)
