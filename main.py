@@ -100,20 +100,13 @@ def execute(day: int, year: int):
 
 
 def setup():
-  for year, day in itertools.product(range(2015, thisYear + 1), range(1, 26)):
+  for year, day in itertools.product(range(2015, thisYear), range(1, 26)):
     day = str(day).zfill(2)
 
     if not os.path.exists(f'./{year}/'):
       os.mkdir(f'./{year}/')
     if not os.path.exists(f'./{year}/Inputs/'):
       os.mkdir(f'./{year}/Inputs/')
-
-  #   for day in range(1, 26):
-  #     day = str(day).zfill(2)
-  #     if not os.path.exists(f'./{year}/'):
-  #       os.mkdir(f'./{year}/')
-  #     if not os.path.exists(f'./{year}/Inputs/'):
-  #       os.mkdir(f'./{year}/Inputs/')
 
     if not os.path.exists(f'./{year}/{day}.py'):
       with open(f'./{year}/{day}.py', 'w') as f:
@@ -130,10 +123,6 @@ def setup():
 
       with open(f'./{year}/Inputs/Day {day} Input.txt', 'w') as f:
         f.close()
-
-  #   else:
-  #     continue
-  #   break
 
 
 # ------------------------ RUN CODE BELOW ------------------------
