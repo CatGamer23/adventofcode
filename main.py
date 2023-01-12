@@ -84,32 +84,33 @@ def run(day, year=thisYear):
 
 
 def setup():
-  for year in range(2015, thisYear + 1):
-    for day in range(1, 26):
-      day = str(day).zfill(2)
-      if not os.path.exists(f'./{year}/'):
-        os.mkdir(f'./{year}/')
-      if not os.path.exists(f'./{year}/Inputs/'):
-        os.mkdir(f'./{year}/Inputs/')
+  pass
+  # for year in range(2015, thisYear + 1):
+  #   for day in range(1, 26):
+  #     day = str(day).zfill(2)
+  #     if not os.path.exists(f'./{year}/'):
+  #       os.mkdir(f'./{year}/')
+  #     if not os.path.exists(f'./{year}/Inputs/'):
+  #       os.mkdir(f'./{year}/Inputs/')
 
-      if not os.path.exists(f'./{year}/{day}.py'):
-        with open(f'./{year}/{day}.py', 'w') as f:
-          f.write(initText)
+  #     if not os.path.exists(f'./{year}/{day}.py'):
+  #       with open(f'./{year}/{day}.py', 'w') as f:
+  #         f.write(initText)
 
-      if not os.path.exists(f'./{year}/Inputs/Day {day} Input.txt'):
-        inputReq = requests.get(url.format(year, day.strip("0")) + "input", cookies={
-            "session": cookieValue
-        })
+  #     if not os.path.exists(f'./{year}/Inputs/Day {day} Input.txt'):
+  #       inputReq = requests.get(url.format(year, day.strip("0")) + "input", cookies={
+  #           "session": cookieValue
+  #       })
 
-        if inputReq.status_code == 404:
-          print(f"Year {year} Day {day} is locked")
-          break
+  #       if inputReq.status_code == 404:
+  #         print(f"Year {year} Day {day} is locked")
+  #         break
 
-        with open(f'./{year}/Inputs/Day {day} Input.txt', 'w') as f:
-          f.write(inputReq.text)
-    else:
-      continue
-    break
+  #       with open(f'./{year}/Inputs/Day {day} Input.txt', 'w') as f:
+  #         f.write(inputReq.text)
+  #   else:
+  #     continue
+  #   break
 
 
 # ------------------------ RUN CODE BELOW ------------------------
