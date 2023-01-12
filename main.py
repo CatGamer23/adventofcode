@@ -67,13 +67,15 @@ def get_data(day: int, year: int):
   except Exception as e:
     raise ValueError(f"Unable to read file {fname}") from e
 
-  print(f"Loaded puzzle input from {fname}\n")
+  # print(f"Loaded puzzle input from {fname}\n")
+  print()
   return data
 
 
 def run(year: int = thisYear):
   try:
     day = input("Day: ")
+    os.system('cls' if os.name == 'nt' else 'clear')
     if int(day) > 25 or int(day) <= 0: raise ValueError
     execute(day, year)
 
@@ -86,7 +88,7 @@ def run(year: int = thisYear):
 
 def execute(day: int, year: int):
   day = str(day).zfill(2)
-  print(f"AOC {year} - Day: {day}")
+  print(f"AOC {year} - Day {day}")
 
   mod = __import__('importlib').import_module(f'{year}.{day}')
   data = get_data(day, year)
@@ -111,7 +113,7 @@ def setup():
         f.write(initText)
 
     if not os.path.exists(f'./{year}/Inputs/Day {day} Input.txt'):
-      inputReq = requests.get(url.format(year, day.strip("0")), cookies={
+      inputReq = requests.get(url.format(year, day.strip('0')), cookies={
           "session": cookieValue
       })
 
