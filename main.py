@@ -4,6 +4,7 @@ import time
 import math
 import requests
 import os
+from stat import S_IREAD
 
 cookieValue = "53616c7465645f5f191c4e9ee5de5bd7fc9d188696b2c9e72bb00e28e72e62ee08c0fe6083be3c305733060f080ff2a02ef369ee7ac904d077368caa53854802"
 url = "https://adventofcode.com/{}/day/{}/input"  # .format(year, day)
@@ -109,18 +110,20 @@ def setup():
       with open(f'./{year}/{day}.py', 'w') as f:
         f.write(initText)
 
-    # if not os.path.exists(f'./{year}/Inputs/Day {day} Input.txt'):
-    inputReq = requests.get(url.format(year, day.strip("0")), cookies={
-                            "session": cookieValue
-                          })
+    if not os.path.exists(f'./{year}/Inputs/Day {day} Input.txt'):
+      inputReq = requests.get(url.format(year, day.strip("0")), cookies={
+          "session": cookieValue
+      })
 
-    if inputReq.status_code == 404:
-      print(f"Dec {day}, {year} is locked")
-      break
+      if inputReq.status_code == 404:
+        print(f"Dec {day}, {year} is locked")
+        break
 
-    with open(f'./{year}/Inputs/Day {day} Input.txt', 'w') as f:
-      f.write(inputReq.text)
-      f.close()
+      with open(f'./{year}/Inputs/Day {day} Input.txt', 'w') as f:
+        f.write(inputReq.text)
+        f.close()
+      
+      os.chmod(f'./{year}/Inputs/Day {day} Input.txt', S_IREAD)
 
 
 # ------------------------ RUN CODE BELOW ------------------------
