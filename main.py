@@ -119,8 +119,9 @@ def setup():
       print(f"Dec {day}, {year} is locked")
       break
 
-    # with open(f'./{year}/Inputs/Day {day} Input.txt', 'w') as f:
-    #   f.close()
+    with open(f'./{year}/Inputs/Day {day} Input.txt', 'w') as f:
+      f.write(inputReq.text)
+      f.close()
 
 
 # ------------------------ RUN CODE BELOW ------------------------
