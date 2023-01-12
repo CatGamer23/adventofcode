@@ -6,7 +6,7 @@ import requests
 import os
 
 cookieValue = "53616c7465645f5f191c4e9ee5de5bd7fc9d188696b2c9e72bb00e28e72e62ee08c0fe6083be3c305733060f080ff2a02ef369ee7ac904d077368caa53854802"
-url = "https://adventofcode.com/{}/day/{}/"  # .format(year, day)
+url = "https://adventofcode.com/{}/day/{}/input"  # .format(year, day)
 thisYear = int(__import__('datetime').date.today().strftime('%Y'))
 initText = """def part1(data):
   return None
@@ -85,8 +85,6 @@ def run(year: int = thisYear):
 
 
 def execute(day: int, year: int):
-  os.system('cls' if os.name == 'nt' else 'clear')
-
   day = str(day).zfill(2)
   print(f"AOC {year} - Day: {day}")
 
@@ -112,19 +110,20 @@ def setup():
       with open(f'./{year}/{day}.py', 'w') as f:
         f.write(initText)
 
-    if not os.path.exists(f'./{year}/Inputs/Day {day} Input.txt'):
-      # inputReq = requests.get(url.format(year, day.strip("0")) + "input", cookies={
-      #     "session": cookieValue
-      # })
+    # if not os.path.exists(f'./{year}/Inputs/Day {day} Input.txt'):
+    inputReq = requests.get(url.format(year, day.strip("0")), cookies={
+                            "session": cookieValue
+                          })
 
-      # if inputReq.status_code == 404:
-      #   print(f"Year {year} Day {day} is locked")
-      #   break
+    if inputReq.status_code == 404:
+      print(f"Dec {day}, {year} is locked")
+      break
 
-      with open(f'./{year}/Inputs/Day {day} Input.txt', 'w') as f:
-        f.close()
+    # with open(f'./{year}/Inputs/Day {day} Input.txt', 'w') as f:
+    #   f.close()
 
 
 # ------------------------ RUN CODE BELOW ------------------------
-# setup()
-run()
+os.system('cls' if os.name == 'nt' else 'clear')
+setup()
+# run(2022)
