@@ -24,18 +24,19 @@ def format_runtime(ms):
   if ms < 1000:
     whole_ms = math.floor(ms)
     rem_ms = ms - whole_ms
-    return f"{whole_ms}ms " + format_runtime(rem_ms)
+    return f"{whole_ms}ms {format_runtime(rem_ms)}"
   sec = ms / 1000
   # Seconds
   if sec < 60:
     whole_sec = math.floor(sec)
     rem_ms = ms - whole_sec * 1000
-    return f'{whole_sec}s ' + format_runtime(rem_ms)
+    return f'{whole_sec}s {format_runtime(rem_ms)}'
   # Minutes
-  return f"{math.floor(sec / 60)}m " + format_runtime((sec % 60) * 1000)
+  return f"{math.floor(sec / 60)}m {format_runtime(sec % 60 * 1000)}"
 
 
 def run_part(part: str, mod: str, data: str):
+  # sourcery skip: extract-method, remove-unnecessary-else
   funcname = f'part{part}'
 
   f = getattr(mod, funcname, None)
