@@ -1,16 +1,30 @@
 def part1(data):
-  totalsList = []
-  curTotal = 0
-  for calorie in data:
-    if calorie == '':
-      totalsList.append(curTotal)
-      curTotal = 0
-    
-    calorie = int(calorie)
-    curTotal += calorie
+  largest = 0
+  from itertools import groupby
+  reformattedData =  [list(group) for key, group in groupby(
+    data, key=lambda x: x == '') if not key]
 
-  return max(totalsList)
+  for subList in reformattedData:
+    total = 0
+    for calorie in subList:
+      total += int(calorie)
+      if total > largest:
+        largest = total
+
+  return largest
 
 
 def part2(data):
-  return None
+  finaltotal = 0
+  totalsList = []
+  from itertools import groupby
+  reformattedData =  [list(group) for key, group in groupby(
+    data, key=lambda x: x == '') if not key]
+
+  totalsList.extend(sum(int(calorie) for calorie in subList) for subList in reformattedData)
+  totalsList.sort()
+
+  for i in totalsList[-3:]:
+    finaltotal += i
+
+  return finaltotal
