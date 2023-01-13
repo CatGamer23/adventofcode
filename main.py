@@ -76,10 +76,10 @@ def run(year: int = thisYear):
   try:
     day = input("Day: ")
     os.system('cls' if os.name == 'nt' else 'clear')
-    if int(day) > 25 or int(day) <= 0: raise ValueError
+    if int(day) > 25 or int(day) <= 0: raise SystemError
     execute(day, year)
 
-  except ValueError:
+  except SystemError:
     print("Day must be an integer from 1 to 25")
 
   except KeyboardInterrupt:
