@@ -2,8 +2,8 @@
   "files.exclude": {
     ".gitignore": true,
     // "**/Inputs/": true,
-    "**/20[^2]*": true,
-    "**/202[^2]*": true,
+    // "**/20[^2]*": true,
+    // "**/202[^2]*": true,
     // "**/20[^1]*": true,
     // "**/201[^5]*": true,
   }
