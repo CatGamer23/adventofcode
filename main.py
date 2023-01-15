@@ -17,7 +17,7 @@ def part2(data):
   return None"""
 
 
-def format_runtime(ms):
+def format_runtime(ms: int) -> str:
   # Microseconds
   if ms <= 1:
     return f"{round(ms * 1000)}µs"
@@ -36,7 +36,7 @@ def format_runtime(ms):
   return f"{math.floor(sec / 60)}m {format_runtime(sec % 60 * 1000)}"
 
 
-def run_part(part: str, mod: str, data: str):
+def run_part(part: int, mod: str, data: str) -> int:
   # sourcery skip: extract-method, remove-unnecessary-else
   funcname = f'part{part}'
 
@@ -57,7 +57,7 @@ def run_part(part: str, mod: str, data: str):
     return 0
 
 
-def get_data(day: int, year: int):
+def get_data(day: int, year: int) -> str:
   # Try to find the filename
   fname = f'./{year}/Inputs/Day {day} Input.txt'
   try:
@@ -72,21 +72,23 @@ def get_data(day: int, year: int):
   return data
 
 
-def run(year: int = thisYear):
+def run(year: int = thisYear) -> None:
+  # sourcery skip: raise-specific-error
   try:
     day = input("Day: ")
     os.system('cls' if os.name == 'nt' else 'clear')
-    if int(day) > 25 or int(day) <= 0: raise SystemError
+    if int(day) > 25 or int(day) <= 0:
+      raise Exception("Day must be an integer from 1 to 25")
     execute(day, year)
-
-  except SystemError:
-    print("Day must be an integer from 1 to 25")
 
   except KeyboardInterrupt:
     print("\nExiting...")
 
+  except Exception as e:
+    print("Error:", e)
 
-def execute(day: int, year: int):
+
+def execute(day: int, year: int) -> None:
   day = str(day).zfill(2)
   print(f"AOC {year} - Day {day}")
 
@@ -99,7 +101,7 @@ def execute(day: int, year: int):
     print(f"Total runtime: {format_runtime(part1Time + part2Time)}")
 
 
-def setup():
+def setup() -> None:
   for year, day in itertools.product(range(2015, thisYear), range(1, 26)):
     day = str(day).zfill(2)
 
@@ -124,7 +126,7 @@ def setup():
       with open(f'./{year}/Inputs/Day {day} Input.txt', 'w') as f:
         f.write(inputReq.text)
         f.close()
-      
+
       os.chmod(f'./{year}/Inputs/Day {day} Input.txt', S_IREAD)
 
 
