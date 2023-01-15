@@ -1,34 +1,25 @@
-pointsAwarded = {'A': 1, 'B': 2, 'C': 3, 'X': 1, 'Y': 2, 'Z': 3}
+translateList = {'A': "Rock", 'B': "Paper", 'C': "Scissors",
+                 'X': "Rock", 'Y': "Paper", 'Z': "Scissors"}
+movePoints = {"Rock": 1, "Paper": 2, "Scissors": 3}
+winningMoves = {
+  "Rock": "Paper",
+  "Paper": "Scissors",
+  "Scissors": "Rock"
+}
 
 
 def part1(data):  # sourcery skip: assign-if-exp
   score = 0
-  for line in data:
-    bothMoves = line.split(' ')
-    opponentMove = pointsAwarded[bothMoves[0]]
-    yourMove = pointsAwarded[bothMoves[1]]
+  for gameRound in data:
+    bothMoves = gameRound.split(' ')
+    opponentMove = translateList[bothMoves[0]]
+    yourMove = translateList[bothMoves[1]]
 
+    score += movePoints[yourMove]
     if opponentMove == yourMove:
-      score += yourMove + 3
-      continue
-
-    elif yourMove == 1:
-      if opponentMove == 3:
-        score += yourMove + 6
-      else:
-        score += yourMove + 0
-      continue
-
-    elif yourMove == 2:
-      if opponentMove == 1:
-        score += yourMove + 0
-      else:
-        score += yourMove + 6
-      continue
-
-    elif yourMove == 3:
-      score += yourMove + 0
-      continue
+      score += 3
+    elif winningMoves[opponentMove] == yourMove:
+      score += 6
 
   return score
 
