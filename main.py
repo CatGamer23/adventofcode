@@ -4,9 +4,11 @@ import time
 import math
 import requests
 import os
+from dotenv import load_dotenv
+load_dotenv()
 from stat import S_IREAD
 
-cookieValue = "53616c7465645f5f191c4e9ee5de5bd7fc9d188696b2c9e72bb00e28e72e62ee08c0fe6083be3c305733060f080ff2a02ef369ee7ac904d077368caa53854802"
+cookieValue = os.getenv('AOC_COOKIE')
 url = "https://adventofcode.com/{}/day/{}/input"  # .format(year, day)
 thisYear = int(__import__('datetime').date.today().strftime('%Y'))
 initText = """def part1(data):
