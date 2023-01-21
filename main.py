@@ -5,8 +5,8 @@ import math
 import requests
 import os
 from dotenv import load_dotenv
-load_dotenv()
 from stat import S_IREAD
+load_dotenv()
 
 cookieValue = os.getenv('AOC_COOKIE')
 url = "https://adventofcode.com/{}/day/{}/input"  # .format(year, day)
