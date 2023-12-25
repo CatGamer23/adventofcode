@@ -19,7 +19,7 @@ def part2(data):
   return None"""
 
 
-def format_runtime(ms: int) -> str:
+def format_runtime(ms: int | float) -> str:
   # Microseconds
   if ms <= 1:
     return f"{round(ms * 1000)}µs"
@@ -38,7 +38,7 @@ def format_runtime(ms: int) -> str:
   return f"{math.floor(sec / 60)}m {format_runtime(sec % 60 * 1000)}"
 
 
-def run_part(part: int, mod: str, data: str) -> int:
+def run_part(part: int, mod: str, data: list[str]) -> int | float:
   # sourcery skip: extract-method, remove-unnecessary-else
   funcname = f'part{part}'
 
@@ -59,7 +59,7 @@ def run_part(part: int, mod: str, data: str) -> int:
     return 0
 
 
-def get_data(day: int, year: int) -> str:
+def get_data(day: str, year: int) -> list[str]:
   # Try to find the filename
   fname = f'./{year}/Inputs/Day {day} Input.txt'
   try:
@@ -90,8 +90,8 @@ def run(year: int = thisYear) -> None:
     print("Error:", e)
 
 
-def execute(day: int, year: int) -> None:
-  day = str(day).zfill(2)
+def execute(day: str, year: int) -> None:
+  day = day.zfill(2)
   print(f"AOC {year} - Day {day}")
 
   mod = __import__('importlib').import_module(f'{year}.{day}')
@@ -105,7 +105,7 @@ def execute(day: int, year: int) -> None:
 
 def setup() -> None:
   for year, day in itertools.product(range(2015, thisYear), range(1, 26)):
-    day = str(day).zfill(2)
+    day = str(day).zfill(2) # type: ignore
 
     if not os.path.exists(f'./{year}/'):
       os.mkdir(f'./{year}/')
@@ -117,8 +117,8 @@ def setup() -> None:
         f.write(initText)
 
     if not os.path.exists(f'./{year}/Inputs/Day {day} Input.txt'):
-      inputReq = requests.get(url.format(year, day.strip('0')), cookies={
-          "session": cookieValue
+      inputReq = requests.get(url.format(year, int(day)), cookies={
+          "session": f'{cookieValue}'
       })
 
       if inputReq.status_code == 404:
@@ -133,6 +133,6 @@ def setup() -> None:
 
 
 # ------------------------ RUN CODE BELOW ------------------------
-os.system('cls' if os.name == 'nt' else 'clear')
-# setup()
-run(2022)
+# os.system('cls' if os.name == 'nt' else 'clear')
+setup()
+# run(2023)
