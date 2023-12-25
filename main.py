@@ -44,7 +44,7 @@ def run_part(part: int, mod: str, data: list[str]) -> int | float:
   funcname = f'part{part}'
 
   f = getattr(mod, funcname, None)
-  if callable(f):
+  if callable(f): # sourcery skip: extract-method
     print(f"Running Part {part}")
 
     start = time.perf_counter()
@@ -94,7 +94,7 @@ def run(year: int = thisYear) -> None:
     day = sys.argv[1] if len(sys.argv) > 1 else input("Day: ")
     os.system('cls' if os.name == 'nt' else 'clear')
     if int(day) > 25 or int(day) <= 0:
-      raise Exception("Day must be an integer from 1 to 25")
+      raise ValueError("Day must be an integer between 1 and 25")
     execute(day, year)
 
   except KeyboardInterrupt:
