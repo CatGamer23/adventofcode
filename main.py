@@ -90,7 +90,8 @@ def execute(day: str, year: int) -> None:
 
 def run(year: int = thisYear) -> None:
   try:
-    day = sys.argv[2] if len(sys.argv) > 2 else input("Day: ")
+    # day = sys.argv[2] if len(sys.argv) > 2 else input("Day: ")
+    day = sys.argv[1] if len(sys.argv) > 1 else input("Day: ")
     os.system('cls' if os.name == 'nt' else 'clear')
     if int(day) > 25 or int(day) <= 0:
       raise Exception("Day must be an integer from 1 to 25")
