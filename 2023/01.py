@@ -1,9 +1,11 @@
 def part1(data):
+  total = 0
   for line in data:
-    # using regex, match the first number in variable line
-    # using regex, match the second number in variable line
-    pass
-  return None
+    num = ''.join(char for char in line if char.isdigit())
+    finalnum = num[0]
+    finalnum += num[-1]
+    total += int(finalnum)
+  return total
 
 
 def part2(data):
