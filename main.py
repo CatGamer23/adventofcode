@@ -135,6 +135,6 @@ def setup() -> None:
 
 # ------------------------ RUN CODE BELOW ------------------------
 os.system('cls' if os.name == 'nt' else 'clear')
-setup()
+# setup()
 # run(int(sys.argv[1] if len(sys.argv) > 1 else input("Year: ")))
 run()
