@@ -104,7 +104,7 @@ def execute(day: str, year: int) -> None:
 
 
 def setup() -> None:
-  for year, day in itertools.product(range(2015, thisYear), range(1, 26)):
+  for year, day in itertools.product(range(2015, thisYear + 1), range(1, 26)):
     day = str(day).zfill(2) # type: ignore
 
     if not os.path.exists(f'./{year}/'):
@@ -133,6 +133,6 @@ def setup() -> None:
 
 
 # ------------------------ RUN CODE BELOW ------------------------
-# os.system('cls' if os.name == 'nt' else 'clear')
+os.system('cls' if os.name == 'nt' else 'clear')
 setup()
 # run(2023)
