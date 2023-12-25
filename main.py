@@ -1,16 +1,18 @@
 # RUN AT END OF FILE, NOT HERE
 import itertools
+import sys
 import time
 import math
 import requests
 import os
+import datetime
 from dotenv import load_dotenv
 from stat import S_IREAD
 load_dotenv()
 
 cookieValue = os.getenv('AOC_COOKIE')
 url = "https://adventofcode.com/{}/day/{}/input"  # .format(year, day)
-thisYear = int(__import__('datetime').date.today().strftime('%Y'))
+thisYear = int(datetime.date.today().strftime('%Y'))
 initText = """def part1(data):
   return None
 
@@ -39,7 +41,6 @@ def format_runtime(ms: int | float) -> str:
 
 
 def run_part(part: int, mod: str, data: list[str]) -> int | float:
-  # sourcery skip: extract-method, remove-unnecessary-else
   funcname = f'part{part}'
 
   f = getattr(mod, funcname, None)
@@ -74,22 +75,6 @@ def get_data(day: str, year: int) -> list[str]:
   return data
 
 
-def run(year: int = thisYear) -> None:
-  # sourcery skip: raise-specific-error
-  try:
-    day = input("Day: ")
-    os.system('cls' if os.name == 'nt' else 'clear')
-    if int(day) > 25 or int(day) <= 0:
-      raise Exception("Day must be an integer from 1 to 25")
-    execute(day, year)
-
-  except KeyboardInterrupt:
-    print("\nExiting...")
-
-  except Exception as e:
-    print("Error:", e)
-
-
 def execute(day: str, year: int) -> None:
   day = day.zfill(2)
   print(f"AOC {year} - Day {day}")
@@ -103,9 +88,24 @@ def execute(day: str, year: int) -> None:
     print(f"Total runtime: {format_runtime(part1Time + part2Time)}")
 
 
+def run(year: int = thisYear) -> None:
+  try:
+    day = sys.argv[2] if len(sys.argv) > 2 else input("Day: ")
+    os.system('cls' if os.name == 'nt' else 'clear')
+    if int(day) > 25 or int(day) <= 0:
+      raise Exception("Day must be an integer from 1 to 25")
+    execute(day, year)
+
+  except KeyboardInterrupt:
+    print("\nExiting...")
+
+  except Exception as e:
+    print("Error:", e)
+
+
 def setup() -> None:
   for year, day in itertools.product(range(2015, thisYear + 1), range(1, 26)):
-    day = str(day).zfill(2) # type: ignore
+    day = str(day).zfill(2)  # type: ignore
 
     if not os.path.exists(f'./{year}/'):
       os.mkdir(f'./{year}/')
@@ -134,5 +134,5 @@ def setup() -> None:
 
 # ------------------------ RUN CODE BELOW ------------------------
 os.system('cls' if os.name == 'nt' else 'clear')
-setup()
-# run(2023)
+# setup()
+run(int(sys.argv[1] if len(sys.argv) > 1 else input("Year: ")))
