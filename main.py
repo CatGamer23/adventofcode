@@ -53,7 +53,7 @@ def run_part(part_number: int, module: str, input_data: list[str]) -> float | No
   return execution_time
 
 
-def get_data(day: str, year: int) -> list[str]:
+def get_input_data(day: str, year: int) -> list[str]:
   # Try to find the filename
   input_file_path: str = f'./{year}/Inputs/Day {day} Input.txt'
   try:
@@ -72,10 +72,10 @@ def execute(day: str, year: int) -> None:
   print(f"AOC {year} - Day {day_padded}")
 
   module = __import__('importlib').import_module(f'{year}.{day_padded}')
-  data: list[str] = get_data(day_padded, year)
+  input_data: list[str] = get_input_data(day_padded, year)
 
-  part1_time: float = run_part(1, module, data) or 0
-  part2_time: float = run_part(2, module, data) or 0
+  part1_time: float = run_part(1, module, input_data) or 0
+  part2_time: float = run_part(2, module, input_data) or 0
   total_time: float = part1_time + part2_time
   print(f"Total runtime: {format_runtime(total_time) if total_time else 'N/A'}")  # noqa
 
