@@ -1,91 +1,85 @@
 # RUN AT END OF FILE, NOT HERE
+import datetime
 import itertools
+import math
+import os
 import sys
 import time
-import math
-import requests
-import os
-import datetime
-from dotenv import load_dotenv
 from stat import S_IREAD
+
+import requests
+from dotenv import load_dotenv
+
 load_dotenv()
 
-cookieValue = os.getenv('AOC_COOKIE')
-url = "https://adventofcode.com/{}/day/{}/input"  # .format(year, day)
-thisYear = int(datetime.date.today().strftime('%Y'))
-initText = """def part1(data):
+cookieValue: str | None = os.getenv('AOC_COOKIE')
+url: str = "https://adventofcode.com/{}/day/{}/input"  # .format(year, day)
+thisYear: int = int(datetime.date.today().strftime('%Y'))
+initText: str = """def part1(data: list[str]) -> str | int | float | None:
   return None
 
 
-def part2(data):
+def part2(data: list[str]) -> str | int | float | None:
   return None"""
 
 
 def format_runtime(ms: int | float) -> str:
-  # Microseconds
-  if ms <= 1:
+  if ms < 1:
     return f"{round(ms * 1000)}µs"
-  # Milliseconds
-  if ms < 1000:
-    whole_ms = math.floor(ms)
-    rem_ms = ms - whole_ms
-    return f"{whole_ms}ms {format_runtime(rem_ms)}"
-  sec = ms / 1000
-  # Seconds
-  if sec < 60:
-    whole_sec = math.floor(sec)
-    rem_ms = ms - whole_sec * 1000
-    return f'{whole_sec}s {format_runtime(rem_ms)}'
-  # Minutes
-  return f"{math.floor(sec / 60)}m {format_runtime(sec % 60 * 1000)}"
-
-
-def run_part(part: int, mod: str, data: list[str]) -> int | float:
-  funcname = f'part{part}'
-
-  f = getattr(mod, funcname, None)
-  if callable(f): # sourcery skip: extract-method
-    print(f"Running Part {part}")
-
-    start = time.perf_counter()
-    val = f(data)
-    end = time.perf_counter()
-
-    print(f"Output: {val}")
-    rtime = (end - start) * 1000  # sec -> ms
-    print(f"Took {format_runtime(rtime)}\n")
-    return rtime
+  elif ms < 1000:
+    return f"{round(ms)}ms"
+  elif ms < 60000:
+    return f"{round(ms / 1000, 2)}s"
   else:
-    print(f"No {funcname} function")
-    return 0
+    minutes = math.floor(ms / 60000)
+    seconds = (ms % 60000) / 1000
+    return f"{minutes}m {round(seconds, 2)}s"
+
+
+def run_part(part: int, mod: str, data: list[str]) -> float | None:
+  func = getattr(mod, f"part{part}", None)
+  if not callable(func):
+    print(f"No part{part} function")
+    return None
+
+  print(f"Running Part {part}")
+  start: float = time.perf_counter()
+  returned_value: str | int | float | None = func(data)
+  end: float = time.perf_counter()
+
+  print(f"Output: {returned_value}")
+  execution_time: float = (end - start) * 1000  # sec -> ms
+  print(f"Took {format_runtime(execution_time)}\n")
+  return execution_time
 
 
 def get_data(day: str, year: int) -> list[str]:
   # Try to find the filename
-  fname = f'./{year}/Inputs/Day {day} Input.txt'
+  input_file_path: str = f'./{year}/Inputs/Day {day} Input.txt'
   try:
-    with open(fname) as f:
-      data = f.readlines()
-      data = [line.strip() for line in data]
+    with open(input_file_path) as f:
+      data: list[str] = [line.strip() for line in f]
   except Exception as e:
-    raise ValueError(f"Unable to read file {fname}") from e
+    raise BaseException(f"Unable to read file {input_file_path}") from e
 
-  # print(f"Loaded puzzle input from {fname}\n")
+  # print(f"Loaded puzzle input from {input_file_path}\n")
   print()
   return data
 
 
 def execute(day: str, year: int) -> None:
-  day = day.zfill(2)
-  print(f"AOC {year} - Day {day}")
+  day_padded: str = day.zfill(2)
+  print(f"AOC {year} - Day {day_padded}")
 
-  mod = __import__('importlib').import_module(f'{year}.{day}')
-  data = get_data(day, year)
+  module = __import__('importlib').import_module(f'{year}.{day_padded}')
+  data: list[str] = get_data(day_padded, year)
 
-  part1Time = run_part(1, mod, data)
-  part2Time = run_part(2, mod, data)
-  if part1Time != 0 and part2Time != 0:
-    print(f"Total runtime: {format_runtime(part1Time + part2Time)}")
+  part1_time: float | None = run_part(1, module, data)
+  part2_time: float | None = run_part(2, module, data)
+  if part1_time is not None and part2_time is not None:
+    print(f"Total runtime: {format_runtime(part1_time + part2_time)}")
+  else:
+    print("Total runtime: N/A")
 
 
 def run(year: int = thisYear) -> None:
@@ -137,4 +131,4 @@ def setup() -> None:
 os.system('cls' if os.name == 'nt' else 'clear')
 # setup()
 # run(int(sys.argv[1] if len(sys.argv) > 1 else input("Year: ")))
-run(2023)
+run(2015)
