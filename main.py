@@ -12,10 +12,10 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-cookieValue: str | None = os.getenv('AOC_COOKIE')
-url: str = "https://adventofcode.com/{}/day/{}/input"  # .format(year, day)
-thisYear: int = int(datetime.date.today().strftime('%Y'))
-initText: str = """def part1(data: list[str]) -> str | int | float | None:
+session_cookie: str | None = os.getenv('AOC_COOKIE')
+input_url: str = "https://adventofcode.com/{}/day/{}/input"  # .format(year, day) # noqa
+current_year: int = int(datetime.date.today().strftime('%Y'))
+default_code: str = """def part1(data: list[str]) -> str | int | float | None:
   return None
 
 
@@ -23,32 +23,32 @@ def part2(data: list[str]) -> str | int | float | None:
   return None"""
 
 
-def format_runtime(ms: int | float) -> str:
-  if ms < 1:
-    return f"{round(ms * 1000)}µs"
-  elif ms < 1000:
-    return f"{round(ms)}ms"
-  elif ms < 60000:
-    return f"{round(ms / 1000, 2)}s"
+def format_runtime(milliseconds: int | float) -> str:
+  if milliseconds < 1:
+    return f"{round(milliseconds * 1000)}µs"
+  elif milliseconds < 1000:
+    return f"{round(milliseconds)}ms"
+  elif milliseconds < 60000:
+    return f"{round(milliseconds / 1000, 2)}s"
   else:
-    minutes = math.floor(ms / 60000)
-    seconds = (ms % 60000) / 1000
+    minutes = math.floor(milliseconds / 60000)
+    seconds = (milliseconds % 60000) / 1000
     return f"{minutes}m {round(seconds, 2)}s"
 
 
-def run_part(part: int, mod: str, data: list[str]) -> float | None:
-  func = getattr(mod, f"part{part}", None)
-  if not callable(func):
-    print(f"No part{part} function")
+def run_part(part_number: int, module: str, input_data: list[str]) -> float | None:
+  part_function = getattr(module, f"part{part_number}", None)
+  if not callable(part_function):
+    print(f"No part{part_number} function")
     return None
 
-  print(f"Running Part {part}")
-  start: float = time.perf_counter()
-  returned_value: str | int | float | None = func(data)
-  end: float = time.perf_counter()
+  print(f"Running Part {part_number}")
+  start_time: float = time.perf_counter()
+  result: str | int | float | None = part_function(input_data)
+  end_time: float = time.perf_counter()
 
-  print(f"Output: {returned_value}")
-  execution_time: float = (end - start) * 1000  # sec -> ms
+  print(f"Output: {result}")
+  execution_time: float = (end_time - start_time) * 1000  # sec -> ms
   print(f"Took {format_runtime(execution_time)}\n")
   return execution_time
 
@@ -57,14 +57,14 @@ def get_data(day: str, year: int) -> list[str]:
   # Try to find the filename
   input_file_path: str = f'./{year}/Inputs/Day {day} Input.txt'
   try:
-    with open(input_file_path) as f:
-      data: list[str] = [line.strip() for line in f]
-  except Exception as e:
-    raise BaseException(f"Unable to read file {input_file_path}") from e
+    with open(input_file_path) as input_file:
+      data_lines: list[str] = [line.strip() for line in input_file]
+  except Exception as error:
+    raise BaseException(f"Unable to read file {input_file_path}") from error
 
   # print(f"Loaded puzzle input from {input_file_path}\n")
   print()
-  return data
+  return data_lines
 
 
 def execute(day: str, year: int) -> None:
@@ -74,32 +74,30 @@ def execute(day: str, year: int) -> None:
   module = __import__('importlib').import_module(f'{year}.{day_padded}')
   data: list[str] = get_data(day_padded, year)
 
-  part1_time: float | None = run_part(1, module, data)
-  part2_time: float | None = run_part(2, module, data)
-  if part1_time is not None and part2_time is not None:
-    print(f"Total runtime: {format_runtime(part1_time + part2_time)}")
-  else:
-    print("Total runtime: N/A")
+  part1_time: float = run_part(1, module, data) or 0
+  part2_time: float = run_part(2, module, data) or 0
+  total_time: float = part1_time + part2_time
+  print(f"Total runtime: {format_runtime(total_time) if total_time else 'N/A'}")  # noqa
 
 
-def run(year: int = thisYear) -> None:
+def run(selected_year: int = current_year) -> None:
   try:
-    # day = sys.argv[2] if len(sys.argv) > 2 else input("Day: ")
-    day = sys.argv[1] if len(sys.argv) > 1 else input("Day: ")
+    selected_day: str = input("Day: ") if len(sys.argv) <= 1 else sys.argv[1]
+    if not selected_day.isdigit() or not 1 <= int(selected_day) <= 25:
+      raise ValueError("Day must be an number between 1 and 25")
+
     os.system('cls' if os.name == 'nt' else 'clear')
-    if int(day) > 25 or int(day) <= 0:
-      raise ValueError("Day must be an integer between 1 and 25")
-    execute(day, year)
+    execute(selected_day.zfill(2), selected_year)
 
   except KeyboardInterrupt:
     print("\nExiting...")
 
-  except Exception as e:
-    print("Error:", e)
+  except Exception as error:
+    print(f"Error: {error}")
 
 
 def setup() -> None:
-  for year, day in itertools.product(range(2015, thisYear + 1), range(1, 26)):
+  for year, day in itertools.product(range(2015, current_year + 1), range(1, 26)):
     day = str(day).zfill(2)  # type: ignore
 
     if not os.path.exists(f'./{year}/'):
@@ -109,11 +107,11 @@ def setup() -> None:
 
     if not os.path.exists(f'./{year}/{day}.py'):
       with open(f'./{year}/{day}.py', 'w') as f:
-        f.write(initText)
+        f.write(default_code)
 
     if not os.path.exists(f'./{year}/Inputs/Day {day} Input.txt'):
-      inputReq = requests.get(url.format(year, int(day)), cookies={
-          "session": f'{cookieValue}'
+      inputReq = requests.get(input_url.format(year, int(day)), cookies={
+          "session": f'{session_cookie}'
       })
 
       if inputReq.status_code == 404:
@@ -128,7 +126,8 @@ def setup() -> None:
 
 
 # ------------------------ RUN CODE BELOW ------------------------
-os.system('cls' if os.name == 'nt' else 'clear')
-# setup()
-# run(int(sys.argv[1] if len(sys.argv) > 1 else input("Year: ")))
-run(2015)
+if __name__ == "__main__":
+  os.system('cls' if os.name == 'nt' else 'clear')
+  # setup()
+  # run(int(sys.argv[1] if len(sys.argv) > 1 else input("Year: ")))
+  run(2015)
