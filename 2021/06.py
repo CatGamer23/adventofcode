@@ -1,4 +1,4 @@
-def part1(data):
+def part1(data: list[str]) -> str | int | float | None:
   laternFishes = data[0].split(',')
   for _ in range(80):
     for i in range(len(laternFishes)):
@@ -11,7 +11,7 @@ def part1(data):
   return len(laternFishes)
 
 
-def part2(data):
+def part2(data: list[str]) -> str | int | float | None:
   laternFishes = data[0].split(',')
   for _ in range(256):
     for i in range(len(laternFishes)):

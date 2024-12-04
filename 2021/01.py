@@ -1,4 +1,4 @@
-def part1(data):
+def part1(data: list[str]) -> str | int | float | None:
   count, previous = 0, 0
   for i in range(len(data)):
     if int(data[i]) > previous:
@@ -7,5 +7,5 @@ def part1(data):
   return count - 1
 
 
-def part2(data):
+def part2(data: list[str]) -> str | int | float | None:
   return None

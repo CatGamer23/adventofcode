@@ -4,7 +4,7 @@ movePoints = {"Rock": 1, "Paper": 2, "Scissors": 3}
 winningMoves = {"Rock": "Paper", "Paper": "Scissors", "Scissors": "Rock"}
 
 
-def part1(data):  # sourcery skip: assign-if-exp
+def part1(data: list[str]) -> str | int | float | None:
   score = 0
   for gameRound in data:
     bothMoves = gameRound.split(' ')
@@ -20,7 +20,7 @@ def part1(data):  # sourcery skip: assign-if-exp
   return score
 
 
-def part2(data):
+def part2(data: list[str]) -> str | int | float | None:
   actionsList = {'X': "Lose", 'Y': "Draw", 'Z': "Win"}
   losingMoves = {"Rock": "Scissors", "Paper": "Rock", "Scissors": "Paper"}
   score = 0
@@ -36,8 +36,7 @@ def part2(data):
       yourMove = losingMoves[opponentMove]
     elif yourAction == "Win":
       yourMove = winningMoves[opponentMove]
-    
-    
+
     score += movePoints[yourMove]
     if opponentMove == yourMove:
       score += 3

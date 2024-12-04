@@ -1,6 +1,6 @@
-def part1(data):
+def part1(data: list[str]) -> str | int | float | None:
   return None
 
 
-def part2(data):
+def part2(data: list[str]) -> str | int | float | None:
   return None

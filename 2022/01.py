@@ -1,4 +1,4 @@
-def part1(data):
+def part1(data: list[str]) -> str | int | float | None:
   largest = 0
   from itertools import groupby
   reformattedData =  [list(group) for key, group in groupby(
@@ -14,7 +14,7 @@ def part1(data):
   return largest
 
 
-def part2(data):
+def part2(data: list[str]) -> str | int | float | None:
   finaltotal = 0
   totalsList = []
   from itertools import groupby

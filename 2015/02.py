@@ -1,4 +1,4 @@
-def part1(data):
+def part1(data: list[str]) -> str | int | float | None:
   total = 0
   for line in data:
     l, w, h = map(int, line.split('x'))
@@ -7,7 +7,7 @@ def part1(data):
   return total
 
 
-def part2(data):
+def part2(data: list[str]) -> str | int | float | None:
   total = 0
   for line in data:
     sizes = line.split('x')

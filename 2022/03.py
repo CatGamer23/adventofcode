@@ -1,4 +1,4 @@
-def part1(data):
+def part1(data: list[str]) -> str | int | float | None:
   priority = 0
   for line in data:
     middle_index = len(line) // 2
@@ -9,7 +9,7 @@ def part1(data):
   return str(priority)
 
 
-def part2(data):
+def part2(data: list[str]) -> str | int | float | None:
   groups = [[data[i], data[i + 1], data[i + 2]]
             for i, _ in enumerate(data[:-2]) if i % 3 == 0]
   priority = 0

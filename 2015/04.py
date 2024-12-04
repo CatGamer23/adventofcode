@@ -1,7 +1,7 @@
 import hashlib
 
 
-def part1(data):
+def part1(data: list[str]) -> str | int | float | None:
   count = 0
   while True:
     md5_hash = hashlib.md5((data[0] + str(count)).encode('utf-8')).hexdigest()
@@ -11,7 +11,7 @@ def part1(data):
   return count
 
 
-def part2(data):
+def part2(data: list[str]) -> str | int | float | None:
   count = 0
   while True:
     md5_hash = hashlib.md5((data[0] + str(count)).encode('utf-8')).hexdigest()

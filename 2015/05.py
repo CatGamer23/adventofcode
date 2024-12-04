@@ -1,7 +1,7 @@
 import re
 
 
-def part1(data):
+def part1(data: list[str]) -> str | int | float | None:
   count = 0
   for line in data:
     if (re.search(r'.*([aeiou].*){3}', line) and re.search(r'(.)\1', line) and not re.search(r'(ab|cd|pq|xy)', line)):
@@ -9,5 +9,5 @@ def part1(data):
   return count
 
 
-def part2(data):
+def part2(data: list[str]) -> str | int | float | None:
   return None
