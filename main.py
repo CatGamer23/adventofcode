@@ -144,6 +144,9 @@ def setup() -> None:
         print(f"Day {day_padded}, {year} is locked")
         break
 
+      if response.text.startswith("<!DOCTYPE html>"):
+        raise ValueError("Invalid session cookie or captcha required")
+
       with open(input_file, 'w') as file:
         file.write(response.text)
 
