@@ -14,7 +14,7 @@ load_dotenv()
 
 session_cookie: str | None = os.getenv('AOC_COOKIE')
 input_url: str = "https://adventofcode.com/{}/day/{}/input"  # .format(year, day) # noqa
-current_year: int = int(datetime.date.today().strftime('%Y'))
+current_year: int = datetime.datetime.now().year
 default_code: str = """def part1(data: list[str]) -> str | int | float | None:
   return None
 
