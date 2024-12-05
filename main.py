@@ -161,5 +161,4 @@ def setup() -> None:
 if __name__ == "__main__":
   os.system('cls' if os.name == 'nt' else 'clear')
   # setup()
-  # run(int(sys.argv[1] if len(sys.argv) > 1 else input("Year: ")))
   run(2015)
