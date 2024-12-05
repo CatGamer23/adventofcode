@@ -10,4 +10,8 @@ def part1(data: list[str]) -> str | int | float | None:
 
 
 def part2(data: list[str]) -> str | int | float | None:
-  return None
+  count = 0
+  for line in data:
+    if (re.search(r'(.).\1', line) and re.search(r'(..).*\1', line)):
+      count += 1
+  return count
