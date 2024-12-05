@@ -160,5 +160,5 @@ def setup() -> None:
 # ------------------------ RUN CODE BELOW ------------------------
 if __name__ == "__main__":
   os.system('cls' if os.name == 'nt' else 'clear')
-  setup()
-  # run(2015)
+  # setup()
+  run(2015)
