@@ -23,10 +23,9 @@ default_code_template: str = """def part1(data: list[str]) -> str | int | float 
 def part2(data: list[str]) -> str | int | float | None:
   return None"""
 
-# Function to format runtime in a human-readable format
 
-
-def format_runtime(milliseconds: int | float) -> str:
+# Format execution time in a human-readable format
+def format_executiontime(milliseconds: int | float) -> str:
   if milliseconds < 1:
     return f"{round(milliseconds * 1000)}µs"
   elif milliseconds < 1000:
@@ -53,7 +52,7 @@ def run_part(part_number: int, module: str, input_data: list[str]) -> float | No
 
   print(f"Output: {result}")
   execution_time: float = (end_time - start_time) * 1000  # sec -> ms
-  print(f"Took {format_runtime(execution_time)}\n")
+  print(f"Took {format_executiontime(execution_time)}\n")
   return execution_time
 
 
@@ -64,15 +63,14 @@ def get_input_data(day: str, year: int) -> list[str]:
     with open(input_file_path, 'r') as input_file:
       data_lines: list[str] = [line.strip() for line in input_file]
   except Exception as error:
-    raise BaseException(f"Unable to read file {input_file_path}") from error
+    raise PermissionError(f"Unable to read file {input_file_path}") from error
 
   # print(f"Loaded puzzle input from {input_file_path}\n")
   return data_lines
 
 
 # Execute the challenge for the selected day and year
-def execute(day: str, year: int) -> None:
-  day_padded: str = day.zfill(2)
+def execute(day_padded: str, year: int) -> None:
   print(f"AOC {year} - Day {day_padded}\n")
 
   module = __import__('importlib').import_module(f'{year}.{day_padded}')
@@ -81,24 +79,53 @@ def execute(day: str, year: int) -> None:
   part1_time: float = run_part(1, module, input_data) or 0
   part2_time: float = run_part(2, module, input_data) or 0
   total_time: float = part1_time + part2_time
-  print(f"Total runtime: {format_runtime(total_time) if total_time else 'N/A'}")  # noqa
+  print(f"Total runtime: {format_executiontime(total_time) if total_time else 'N/A'}")  # noqa
 
 
 # Run the challenge for the selected year
 def run(selected_year: int = current_year) -> None:
   try:
-    selected_day: str = input("Day: ") if len(sys.argv) <= 1 else sys.argv[1]
+    selected_day: str = (sys.argv[1] if len(
+      sys.argv) > 1 else input("Day: ")).zfill(2)
     if not selected_day.isdigit() or not 1 <= int(selected_day) <= 25:
       raise ValueError("Day must be an number between 1 and 25")
 
     os.system('cls' if os.name == 'nt' else 'clear')
-    execute(selected_day.zfill(2), selected_year)
+    execute(selected_day, selected_year)
 
   except KeyboardInterrupt:
     print("\nExiting...")
 
   except Exception as error:
-    print(f"Error: {error}")
+    raise RuntimeError(f"Error: {error}") from error
+
+
+# Create a file with default code template if it does not exist
+def create_file_if_not_exists(file_path: str) -> None:
+  if not os.path.exists(file_path):
+    with open(file_path, 'w') as file:
+      file.write(default_code_template)
+
+
+# Download the input file for a given day and year
+def download_input_file(year: int, day: str, input_file: str) -> None:
+  if session_cookie is None:
+    raise ValueError("Session cookie is not set")
+
+  response = requests.get(input_url.format(year, day), cookies={
+      "session": session_cookie
+  })
+
+  if response.status_code == 404:
+    raise ConnectionRefusedError(f"Day {day}, {year} is locked")
+
+  if response.text.startswith("<!DOCTYPE html>"):
+    raise ValueError("Invalid session cookie or captcha required")
+
+  with open(input_file, 'w') as file:
+    file.write(response.text)
+
+  os.chmod(input_file, S_IREAD)
 
 
 # Set up the directory structure and files
@@ -121,36 +148,15 @@ def setup() -> None:
   for year, day in itertools.product(range(2015, current_year + 1), range(1, 26)):
     day_padded = str(day).zfill(2)
 
-    year_dir = f'./{year}/'
-    inputs_dir = f'{year_dir}Inputs/'
-    day_file = f'{year_dir}{day_padded}.py'
-    input_file = f'{inputs_dir}Day {day_padded} Input.txt'
+    day_file = f'./{year}/{day_padded}.py'
+    input_file = f'./{year}/Inputs/Day {day_padded} Input.txt'
 
-    os.makedirs(inputs_dir, exist_ok=True)
+    os.makedirs(f'./{year}/Inputs/', exist_ok=True)
 
-    if not os.path.exists(day_file):
-      with open(day_file, 'w') as file:
-        file.write(default_code_template)
+    create_file_if_not_exists(day_file)
 
     if not os.path.exists(input_file):
-      if session_cookie is None:
-        raise ValueError("Session cookie is not set")
-
-      response = requests.get(input_url.format(year, day), cookies={
-        "session": session_cookie
-      })
-
-      if response.status_code == 404:
-        print(f"Day {day_padded}, {year} is locked")
-        break
-
-      if response.text.startswith("<!DOCTYPE html>"):
-        raise ValueError("Invalid session cookie or captcha required")
-
-      with open(input_file, 'w') as file:
-        file.write(response.text)
-
-      os.chmod(input_file, S_IREAD)
+      download_input_file(year, day_padded, input_file)
 
 
 # ------------------------ RUN CODE BELOW ------------------------
