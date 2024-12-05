@@ -110,7 +110,7 @@ def download_input_file(year: int, day: str, input_file: str) -> None:
   if session_cookie is None:
     raise ValueError("Session cookie is not set")
 
-  response = requests.get(input_url.format(year, day), cookies={
+  response = requests.get(input_url.format(year, int(day)), cookies={
       "session": session_cookie
   })
 
@@ -160,5 +160,5 @@ def setup() -> None:
 # ------------------------ RUN CODE BELOW ------------------------
 if __name__ == "__main__":
   os.system('cls' if os.name == 'nt' else 'clear')
-  # setup()
-  run(2015)
+  setup()
+  # run(2015)
