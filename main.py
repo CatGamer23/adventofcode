@@ -3,7 +3,6 @@ import datetime
 import itertools
 import math
 import os
-import sys
 import time
 from stat import S_IREAD
 
@@ -70,7 +69,7 @@ def get_input_data(day: str, year: int) -> list[str]:
 
 
 # Execute the challenge for the selected day and year
-def execute(day_padded: str, year: int) -> None:
+def execute_challenge(day_padded: str, year: int) -> None:
   print(f"AOC {year} - Day {day_padded}\n")
 
   module = __import__('importlib').import_module(f'{year}.{day_padded}')
@@ -85,13 +84,12 @@ def execute(day_padded: str, year: int) -> None:
 # Run the challenge for the selected year
 def run(selected_year: int = current_year) -> None:
   try:
-    selected_day: str = (sys.argv[1] if len(
-      sys.argv) > 1 else input("Day: ")).zfill(2)
-    if not selected_day.isdigit() or not 1 <= int(selected_day) <= 25:
-      raise ValueError("Day must be an number between 1 and 25")
+    selected_day = int(input("Day: ").strip())
+    if not 1 <= selected_day <= 25:
+      raise ValueError("Day must be a number between 1 and 25")
 
     os.system('cls' if os.name == 'nt' else 'clear')
-    execute(selected_day, selected_year)
+    execute_challenge(str(selected_day).zfill(2), selected_year)
 
   except KeyboardInterrupt:
     print("\nExiting...")
