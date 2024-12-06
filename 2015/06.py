@@ -17,7 +17,7 @@ def part1(data: list[str]) -> str | int | float | None:
     elif action == 'toggle':
       grid[start[0]:end[0] + 1, start[1]:end[1] + 1] ^= 1
 
-  return int(np.sum(grid))
+  return np.sum(grid)
 
 
 def part2(data: list[str]) -> str | int | float | None:
@@ -37,4 +37,4 @@ def part2(data: list[str]) -> str | int | float | None:
     elif action == 'toggle':
       grid[start[0]:end[0] + 1, start[1]:end[1] + 1] += 2
 
-  return int(np.sum(grid))
+  return np.sum(grid)
