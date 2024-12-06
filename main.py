@@ -121,7 +121,7 @@ def download_input_file(year: int, day: str, input_file: str) -> None:
     raise ValueError("Invalid session cookie or captcha required")
 
   with open(input_file, 'w') as file:
-    file.write(response.text)
+    file.write(response.text.rstrip())
 
   os.chmod(input_file, S_IREAD)
 
