@@ -56,11 +56,11 @@ def run_part(part_number: int, module: str, input_data: list[str]) -> float | No
 
 
 # Get input data
-def get_input_data(day: str, year: int) -> list[str]:
-  input_file_path: str = f'./{year}/Inputs/Day {day} Input.txt'
+def get_input_data(day_padded: str, year: int) -> list[str]:
+  input_file_path: str = f'./{year}/Inputs/Day {day_padded} Input.txt'
   try:
     with open(input_file_path, 'r') as input_file:
-      data_lines: list[str] = [line.strip() for line in input_file]
+      data_lines: list[str] = [line.rstrip() for line in input_file]
   except Exception as error:
     raise PermissionError(f"Unable to read file {input_file_path}") from error
 
