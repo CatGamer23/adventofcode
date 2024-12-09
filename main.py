@@ -95,7 +95,8 @@ def run(selected_year: int = current_year) -> None:
     print("\nExiting...")
 
   except Exception as error:
-    raise RuntimeError(f"An error occurred: {type(error).__name__}: {error}") from error
+    raise RuntimeError(f"An error occurred: {type(error).__name__}: {error}") from error  # noqa
+
 
 # Create a file with default code template if it does not exist
 def create_file_if_not_exists(file_path: str) -> None:
