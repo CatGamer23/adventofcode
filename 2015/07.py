@@ -1,57 +1,46 @@
-from rich import print
+def eval_expr(instructions: dict[str, tuple[str, ...]], wire: str, cache: dict[str, int]) -> int:
+  if wire.isdigit():
+    return int(wire)
+
+  if wire in cache:
+    return cache[wire]
+
+  expression: tuple[str, ...] = instructions[wire]
+
+  # If the expression is a single wire/number, evaluate it directly
+  if len(expression) == 1:
+    result: int = eval_expr(instructions, expression[0], cache)
+
+  # If the expression is a NOT operation, evaluate the operand and apply bitwise NOT
+  elif len(expression) == 2:
+    result = ~eval_expr(instructions, expression[1], cache)
+
+  # Evaluate the left and right operands
+  else:
+    left: int = eval_expr(instructions, expression[0], cache)
+    right: int = eval_expr(instructions, expression[2], cache)
+
+    # Apply the appropriate bitwise operation based upon operator
+    if expression[1] == "AND":
+      result = left & right
+    elif expression[1] == "OR":
+      result = left | right
+    elif expression[1] == "LSHIFT":
+      result = left << right
+    elif expression[1] == "RSHIFT":
+      result = left >> right
+
+  cache[wire] = result
+  return result
 
 
 def part1(data: list[str]) -> str | int | float | None:
-  # data = [
-  #     '123 -> x',
-  #     '456 -> y',
-  #     'x AND y -> d',
-  #     'x OR y -> e',
-  #     'x LSHIFT 2 -> f',
-  #     'y RSHIFT 2 -> g',
-  #     'NOT x -> h',
-  #     'NOT y -> i'
-  # ]
+  instructions: dict[str, tuple[str, ...]] = {
+    line.split(' -> ')[1]: tuple(line.split(' -> ')[0].split())
+    for line in data
+  }
 
-  storage: dict[str, int] = {}
-
-  for line in data:
-    print(f"Processing line: {line}")
-    signal, wire = line.split(' -> ')
-    data = signal.split(' ')
-    print(f"Signal: {signal}, Wire: {wire}, Data: {data}")
-
-    if len(data) == 1:
-      value = int(data[0]) if data[0].isnumeric() else storage.get(data[0], 0)
-      storage[wire] = value
-      print(f"Assigned {value} to {wire}")
-    elif data[0] == 'NOT':
-      value = ~storage.get(data[1], 0) & 65535
-      storage[wire] = value
-      print(f"Assigned {value} to {wire} (NOT operation)")
-    else:
-      op1 = storage.get(data[0], 0)
-      op2 = int(data[2]) if data[2].isnumeric() else storage.get(data[2], 0)
-      print(f"Operands: {op1}, {op2}")
-      if data[1] == 'AND':
-        value = op1 & op2
-        storage[wire] = value
-        print(f"Assigned {value} to {wire} (AND operation)")
-      elif data[1] == 'OR':
-        value = op1 | op2
-        storage[wire] = value
-        print(f"Assigned {value} to {wire} (OR operation)")
-      elif data[1] == 'LSHIFT':
-        value = op1 << op2
-        storage[wire] = value
-        print(f"Assigned {value} to {wire} (LSHIFT operation)")
-      elif data[1] == 'RSHIFT':
-        value = op1 >> op2
-        storage[wire] = value
-        print(f"Assigned {value} to {wire} (RSHIFT operation)")
-
-  print("Final storage state:", dict(sorted(storage.items())))
-  return storage.get('a', None)
+  return eval_expr(instructions, 'a', {})
 
 
 def part2(data: list[str]) -> str | int | float | None:
