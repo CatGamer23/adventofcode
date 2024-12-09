@@ -70,7 +70,7 @@ def get_input_data(day_padded: str, year: int) -> list[str]:
 
 # Execute the challenge for the selected day and year
 def execute_challenge(day_padded: str, year: int) -> None:
-  print(f"AOC {year} - Day {day_padded}\n")
+  print(f"AoC {year} - Day {day_padded}\n")
 
   module = __import__('importlib').import_module(f'{year}.{day_padded}')
   input_data: list[str] = get_input_data(day_padded, year)
