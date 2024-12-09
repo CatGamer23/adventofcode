@@ -44,4 +44,14 @@ def part1(data: list[str]) -> str | int | float | None:
 
 
 def part2(data: list[str]) -> str | int | float | None:
-  return None
+  # Now, take the signal you got on wire a, override wire b to that signal,
+  # and reset the other wires (including wire a). What new signal is ultimately provided to wire a?
+  instructions: dict[str, tuple[str, ...]] = {
+    line.split(' -> ')[1]: tuple(line.split(' -> ')[0].split())
+    for line in data
+  }
+
+  signal_a: int = eval_expr(instructions, 'a', {})
+  instructions['b'] = (str(signal_a),)
+
+  return eval_expr(instructions, 'a', {})
