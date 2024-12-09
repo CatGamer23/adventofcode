@@ -11,4 +11,4 @@ def part1(data: list[str]) -> str | int | float | None:
 
 
 def part2(data: list[str]) -> str | int | float | None:
-  return None
+  return sum(2 + line.count('\\') + line.count('"') for line in data)
