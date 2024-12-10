@@ -1,4 +1,3 @@
-from rich import print
 def part1(data: list[str]) -> str | int | float | None:
   total_characters: int = 0
   total_interpreted: int = 0
