@@ -1,10 +1,12 @@
 # RUN AT END OF FILE, NOT HERE
 import datetime
+import importlib
 import itertools
 import math
 import os
 import time
 from stat import S_IREAD
+from types import ModuleType
 
 import requests
 from dotenv import load_dotenv
@@ -38,7 +40,7 @@ def format_executiontime(milliseconds: int | float) -> str:
 
 
 # Run specific part for a given day and year
-def run_part(part_number: int, module: str, input_data: list[str]) -> float | None:
+def run_part(part_number: int, module: ModuleType, input_data: list[str]) -> float | None:
   part_function = getattr(module, f"part{part_number}", None)
   if not callable(part_function):
     print(f"No part{part_number} function")
@@ -72,7 +74,7 @@ def get_input_data(day_padded: str, year: int) -> list[str]:
 def execute_challenge(day_padded: str, year: int) -> None:
   print(f"AoC {year} - Day {day_padded}\n")
 
-  module = __import__('importlib').import_module(f'{year}.{day_padded}')
+  module: ModuleType = importlib.import_module(f'{year}.{day_padded}')
   input_data: list[str] = get_input_data(day_padded, year)
 
   part1_time: float = run_part(1, module, input_data) or 0
