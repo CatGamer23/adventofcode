@@ -156,7 +156,11 @@ def setup() -> None:
     create_file_if_not_exists(day_file)
 
     if not os.path.exists(input_file):
-      download_input_file(year, day_padded, input_file)
+      try:
+        download_input_file(year, day_padded, input_file)
+      except ConnectionRefusedError as e:
+        print(e)
+        break
 
 
 # ------------------------ RUN CODE BELOW ------------------------
