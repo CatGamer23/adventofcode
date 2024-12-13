@@ -1,4 +1,5 @@
 # RUN AT END OF FILE, NOT HERE
+import argparse
 import datetime
 import importlib
 import itertools
@@ -14,8 +15,14 @@ from dotenv import load_dotenv
 # Load environment variables from a .env file
 load_dotenv()
 
-session_cookie: str | None = os.getenv('AOC_COOKIE')
-input_url: str = "https://adventofcode.com/{}/day/{}/input"  # .format(year, day) # noqa
+# Parse command line arguments
+parser = argparse.ArgumentParser(description="Run Advent of Code challenges.")
+parser.add_argument("-d", "--day", type=int, help="Specify the day of the challenge (1-25).")  # noqa
+args = parser.parse_args()
+
+# Set global variables
+session_cookie: str | None = os.getenv('AOC_COOKIE')  # .format(year, day)
+input_url: str = "https://adventofcode.com/{}/day/{}/input"
 current_year: int = datetime.datetime.now().year
 default_code_template: str = """def part1(data: list[str]) -> str | int | float | None:
   return None
@@ -84,9 +91,9 @@ def execute_challenge(day_padded: str, year: int) -> None:
 
 
 # Run the challenge for the selected year
-def run(selected_year: int = current_year) -> None:
+def run(selected_year: int = current_year, selected_day: int | None = None) -> None:
   try:
-    selected_day = int(input("Day: ").strip())
+    selected_day = args.day or int(input("Day: ").strip())
     if not 1 <= selected_day <= 25:
       raise ValueError("Day must be a number between 1 and 25")
 
