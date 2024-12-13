@@ -1,6 +1,3 @@
-from rich import print
-
-
 def part1(data: list[str]) -> str | int | float | None:
   cache: dict[int, dict[str, int]] = {}
   gift_sender: dict[str, int] = {
