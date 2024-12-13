@@ -9,8 +9,11 @@ def part1(data: list[str]) -> str | int | float | None:
   }
 
   for line in data:
-    _, sue_number, compound1_type, compound1, compound2_type, compound2, compound3_type, compound3 = line.replace(
-      ',', '').replace(':', '').split(' ')
+    parts = line.replace(',', '').replace(':', '').split(' ')
+    sue_number = parts[1]
+    compound1, compound1_type = parts[3], parts[2]
+    compound2, compound2_type = parts[5], parts[4]
+    compound3, compound3_type = parts[7], parts[6]
 
     cache[int(sue_number)] = {
       compound1_type: int(compound1),
@@ -19,7 +22,7 @@ def part1(data: list[str]) -> str | int | float | None:
     }
 
   for sue_num, compounds in cache.items():
-    if all(compounds[key] == gift_sender[key] for key in compounds):
+    if compounds.items() <= gift_sender.items():
       return sue_num
 
   return "No matching Aunt Sue found"
