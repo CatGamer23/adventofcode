@@ -1,4 +1,3 @@
-from rich import print
 import itertools
 
 
@@ -15,4 +14,15 @@ def part1(data: list[str]) -> str | int | float | None:
 
 
 def part2(data: list[str]) -> str | int | float | None:
-  return None
+  container_sizes: list[int] = list(map(int, data))
+
+  valid_combinations: list[tuple[int, ...]] = []
+  for i in range(len(container_sizes)):
+    for combination in itertools.combinations(container_sizes, i):
+      if sum(combination) == 150:
+        if len(valid_combinations) == 0:
+          valid_combinations = [combination]
+        elif len(combination) <= len(valid_combinations[0]):
+          valid_combinations.append(combination)
+
+  return len(valid_combinations)
