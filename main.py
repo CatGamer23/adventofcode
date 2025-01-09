@@ -18,6 +18,7 @@ load_dotenv()
 # Parse command line arguments
 parser = argparse.ArgumentParser(description="Run Advent of Code challenges.")
 parser.add_argument("-d", "--day", type=int, help="Specify the day of the challenge (1-25).")  # noqa
+parser.add_argument("-y", "--year", type=int, help="Specify the year of the challenge (2015-current).")  # noqa
 args = parser.parse_args()
 
 # Set global variables
@@ -92,8 +93,10 @@ def execute_challenge(day_padded: str, year: int) -> None:
 
 # Run the challenge for the selected year
 def run(selected_year: int = current_year, selected_day: int | None = None) -> None:
+  selected_day = args.day or int(input("Day: ").strip())
+  selected_year = args.year or selected_year
+
   try:
-    selected_day = args.day or int(input("Day: ").strip())
     if not 1 <= selected_day <= 25:
       raise ValueError("Day must be a number between 1 and 25")
 
