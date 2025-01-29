@@ -19,10 +19,10 @@ def part2(data: list[str]) -> str | int | float | None:
 
   for i, direction in enumerate(data[0]):
     if i % 2 == 0:
-      santa = (santa[0] + lookupTable[direction][0], santa[1] + lookupTable[direction][1])
+      santa = (santa[0] + lookupTable[direction][0], santa[1] + lookupTable[direction][1])  # noqa
       visited.add(santa)
     else:
-      robot = (robot[0] + lookupTable[direction][0], robot[1] + lookupTable[direction][1])
+      robot = (robot[0] + lookupTable[direction][0], robot[1] + lookupTable[direction][1])  # noqa
       visited.add(robot)
 
   return len(visited)
