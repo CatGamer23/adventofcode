@@ -19,6 +19,7 @@ load_dotenv()
 parser = argparse.ArgumentParser(description="Run Advent of Code challenges.")
 parser.add_argument("-d", "--day", type=int, help="Specify the day of the challenge (1-25).")  # noqa
 parser.add_argument("-y", "--year", type=int, help="Specify the year of the challenge (2015-current).")  # noqa
+parser.add_argument("-s", "--setup", action="store_true", help="Set up the directory structure and files.")  # noqa
 args = parser.parse_args()
 
 # Set global variables
@@ -176,5 +177,7 @@ def setup() -> None:
 # ------------------------ RUN CODE BELOW ------------------------
 if __name__ == "__main__":
   os.system('cls' if os.name == 'nt' else 'clear')
-  # setup()
-  run()
+  if args.setup:
+    setup()
+  else:
+    run()
