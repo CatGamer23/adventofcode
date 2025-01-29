@@ -155,7 +155,7 @@ def setup() -> None:
   Raises:
     - Any exceptions raised by `requests.get` or file operations are not explicitly handled within this function.
   """
-  for year, day in itertools.product(range(2015, current_year + 1), range(1, 26)):
+  for year, day in itertools.product(range(2015, current_year), range(1, 26)):
     day_padded = str(day).zfill(2)
 
     day_file = f'./{year}/{day_padded}.py'
