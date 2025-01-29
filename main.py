@@ -93,8 +93,8 @@ def execute_challenge(day_padded: str, year: int) -> None:
 
 # Run the challenge for the selected year
 def run(selected_year: int = current_year, selected_day: int | None = None) -> None:
+  selected_year = args.year or int(input("Year: ").strip())
   selected_day = args.day or int(input("Day: ").strip())
-  selected_year = args.year or selected_year
 
   try:
     if not 1 <= selected_day <= 25:
@@ -177,4 +177,4 @@ def setup() -> None:
 if __name__ == "__main__":
   os.system('cls' if os.name == 'nt' else 'clear')
   # setup()
-  run(2015)
+  run()
