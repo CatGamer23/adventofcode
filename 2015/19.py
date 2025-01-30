@@ -2,6 +2,7 @@ from rich import print
 
 
 def part1(data: list[str]) -> str | int | float | None:
+  # *replacement_rules, _, starting_molecule = data
   replacement_rules: list[str] = data[:-2]
   starting_molecule: str = data[-1]
   unique_molecules: set[str] = set()
