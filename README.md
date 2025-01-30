@@ -23,13 +23,12 @@ cd adventofcode
 pip install -r requirements.txt
 ```
 
-3. **Delete all the input files (optional but important):**
+3. (**important**) Delete all input files to avoid incorrect answers, as each input is unique per user.
 
 ```sh
 find . -type d -name 'Inputs' -exec rm -rf {} +
 ```
 
-If you don't delete these files, you will end up with the wrong answers, as each input is unique per user.
 
 4. Add your Advent of Code session cookie to a `.env` file:
 
