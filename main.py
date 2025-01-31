@@ -42,10 +42,11 @@ def format_executiontime(milliseconds: int | float) -> str:
     return f"{round(milliseconds)}ms"
   elif milliseconds < 60000:
     return f"{round(milliseconds / 1000, 2)}s"
+  elif milliseconds < 3600000:
+    minutes, seconds = divmod(milliseconds / 1000, 60)
+    return f"{int(minutes)}m {round(seconds, 2)}s"
   else:
-    minutes = math.floor(milliseconds / 60000)
-    seconds = (milliseconds % 60000) / 1000
-    return f"{minutes}m {round(seconds, 2)}s"
+    return "You took way too long to solve this problem..."
 
 
 # Run specific part for a given day and year
