@@ -1,3 +1,5 @@
+from rich import print
+
 def part1(data: list[str]) -> str | int | float | None:
   return None
 
