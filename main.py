@@ -3,11 +3,11 @@ import argparse
 import datetime
 import importlib
 import itertools
-import math
 import os
 import time
 from stat import S_IREAD
 from types import ModuleType
+from typing import Any
 
 import requests
 from dotenv import load_dotenv
@@ -58,7 +58,7 @@ def run_part(part_number: int, module: ModuleType, input_data: list[str]) -> flo
 
   print(f"Running Part {part_number}")
   start_time: float = time.perf_counter()
-  result: str | int | float | None = part_function(input_data)
+  result: Any = part_function(input_data)
   end_time: float = time.perf_counter()
 
   print(f"Output: {result}")
@@ -99,7 +99,7 @@ def run(selected_year: int = current_year, selected_day: int | None = None) -> N
   selected_day = args.day or int(input("Day: ").strip())
 
   try:
-    if not 1 <= selected_day <= 25:
+    if selected_day is None or not (1 <= selected_day <= 25):
       raise ValueError("Day must be a number between 1 and 25")
 
     os.system('cls' if os.name == 'nt' else 'clear')
