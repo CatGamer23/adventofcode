@@ -29,6 +29,8 @@ def eval_expr(instructions: dict[str, tuple[str, ...]], wire: str, cache: dict[s
       result = left << right
     elif expression[1] == "RSHIFT":
       result = left >> right
+    else:
+      raise ValueError(f"Unknown operator: {expression[1]}")
 
   cache[wire] = result
   return result

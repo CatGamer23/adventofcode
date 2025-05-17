@@ -1,8 +1,9 @@
 import numpy as np
+from typing import Any
 
 
 def part1(data: list[str]) -> str | int | float | None:
-  grid: np.ndarray = np.zeros((1000, 1000), dtype=int)
+  grid: np.ndarray[Any, np.dtype[np.int_]] = np.zeros((1000, 1000), dtype=int)
 
   for line in data:
     command: list[str] = line.split(' ')
@@ -17,11 +18,11 @@ def part1(data: list[str]) -> str | int | float | None:
     elif action == 'toggle':
       grid[start[0]:end[0] + 1, start[1]:end[1] + 1] ^= 1
 
-  return np.sum(grid)
+  return int(np.sum(grid))
 
 
 def part2(data: list[str]) -> str | int | float | None:
-  grid: np.ndarray = np.zeros((1000, 1000), dtype=int)
+  grid: np.ndarray[Any, np.dtype[np.int_]] = np.zeros((1000, 1000), dtype=int)
 
   for line in data:
     command: list[str] = line.split(' ')
@@ -37,4 +38,4 @@ def part2(data: list[str]) -> str | int | float | None:
     elif action == 'toggle':
       grid[start[0]:end[0] + 1, start[1]:end[1] + 1] += 2
 
-  return np.sum(grid)
+  return int(np.sum(grid))

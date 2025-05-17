@@ -1,11 +1,13 @@
+from typing import Any
+
 import numpy as np
 
 
 def part1(data: list[str]) -> str | int | float | None:
-  grid: np.ndarray = np.array([[char == '#' for char in row] for row in data], dtype=int)  # noqa
+  grid: np.ndarray[Any, np.dtype[np.int32]] = np.array([[char == '#' for char in row] for row in data], dtype=np.int32)  # noqa
 
   for _ in range(100):
-    next_grid: np.ndarray = np.zeros_like(grid)
+    next_grid: np.ndarray[Any, np.dtype[np.int32]] = np.zeros_like(grid)
     for row in range(grid.shape[0]):
       for col in range(grid.shape[1]):
         active_neighbors: int = grid[max(
@@ -20,10 +22,10 @@ def part1(data: list[str]) -> str | int | float | None:
 
 
 def part2(data: list[str]) -> str | int | float | None:
-  grid: np.ndarray = np.array([[char == '#' for char in row] for row in data], dtype=int)  # noqa
+  grid: np.ndarray[Any, np.dtype[np.int_]] = np.array([[char == '#' for char in row] for row in data], dtype=np.int32)  # noqa
 
   for _ in range(100):
-    next_grid: np.ndarray = np.zeros_like(grid)
+    next_grid: np.ndarray[Any, np.dtype[np.int32]] = np.zeros_like(grid)
     for row in range(grid.shape[0]):
       for col in range(grid.shape[1]):
         active_neighbors: int = grid[max(
