@@ -9,10 +9,25 @@ from stat import S_IREAD
 from types import ModuleType
 from typing import Any
 
-import requests
-from dotenv import load_dotenv
+try:
+  import requests
+except ImportError:
+  class _MissingRequests:
+    def __getattr__(self, name: str) -> Any:
+      def _missing(*args: Any, **kwargs: Any) -> None:
+        raise RuntimeError(
+          f"The 'requests' package is not installed; install it to enable HTTP functionality (attribute: {name})")
+      return _missing
+  requests = _MissingRequests()
+
+try:
+  from dotenv import load_dotenv
+except ImportError:
+  def load_dotenv() -> None:
+    pass
 
 # Load environment variables from a .env file
+# Currently only used for AOC_COOKIE
 load_dotenv()
 
 # Parse command line arguments
