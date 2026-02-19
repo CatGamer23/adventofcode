@@ -1,4 +1,4 @@
-#! python3
+#!/usr/bin/env uv run
 
 # RUN AT END OF FILE, NOT HERE
 import argparse
