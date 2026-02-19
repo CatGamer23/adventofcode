@@ -1,4 +1,4 @@
-#! /usr/bin/python3
+#! python3
 
 # RUN AT END OF FILE, NOT HERE
 import argparse
@@ -34,9 +34,9 @@ load_dotenv()
 
 # Parse command line arguments
 parser = argparse.ArgumentParser(description="Run Advent of Code challenges.")
-parser.add_argument("-d", "--day", type=int, help="Specify the day of the challenge (1-25).")  # noqa
-parser.add_argument("-y", "--year", type=int, help="Specify the year of the challenge (2015-current).")  # noqa
-parser.add_argument("-s", "--setup", action="store_true", help="Set up the directory structure and files.")  # noqa
+parser.add_argument("-d", "--day", type=int, help="Specify the day of the challenge (1-25).")
+parser.add_argument("-y", "--year", type=int, help="Specify the year of the challenge (2015-current).")
+parser.add_argument("-s", "--setup", action="store_true", help="Set up the directory structure and files.")
 args = parser.parse_args()
 
 # Set global variables
