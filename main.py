@@ -6,6 +6,7 @@ import datetime
 import importlib
 import itertools
 import os
+import subprocess
 import time
 from stat import S_IREAD
 from types import ModuleType
@@ -119,7 +120,7 @@ def run(selected_year: int = current_year, selected_day: int | None = None) -> N
     if selected_day is None or not (1 <= selected_day <= 25):
       raise ValueError("Day must be a number between 1 and 25")
 
-    os.system('cls' if os.name == 'nt' else 'clear')
+    subprocess.run('cls' if os.name == 'nt' else ['clear'], shell=True)
     execute_challenge(str(selected_day).zfill(2), selected_year)
 
   except KeyboardInterrupt:
@@ -194,7 +195,7 @@ def setup() -> None:
 
 # ------------------------ RUN CODE BELOW ------------------------
 if __name__ == "__main__":
-  os.system('cls' if os.name == 'nt' else 'clear')
+  subprocess.run('cls' if os.name == 'nt' else ['clear'], shell=True)
   if args.setup:
     setup()
   else:
