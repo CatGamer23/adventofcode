@@ -25,8 +25,8 @@ except ImportError:
 try:
   from dotenv import load_dotenv
 except ImportError:
-  def load_dotenv() -> None:
-    pass
+  def load_dotenv() -> bool:
+    return False
 
 # Load environment variables from a .env file
 # Currently only used for AOC_COOKIE
