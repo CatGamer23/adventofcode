@@ -1,3 +1,5 @@
+#! /usr/bin/python3
+
 # RUN AT END OF FILE, NOT HERE
 import argparse
 import datetime
