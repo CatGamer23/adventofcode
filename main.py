@@ -141,9 +141,9 @@ def download_input_file(year: int, day: str, input_file: str) -> None:
   if session_cookie is None:
     raise ValueError("Session cookie is not set")
 
-  response: requests.Response = requests.get(input_url.format(year, int(day)), cookies={
-      "session": session_cookie
-  })
+  response: requests.Response = requests.get(
+    input_url.format(year, int(day)), cookies={"session": session_cookie}
+  )
 
   if response.status_code == 404:
     raise ConnectionRefusedError(f"Day {day}, {year} is locked")
