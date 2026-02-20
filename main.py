@@ -18,8 +18,7 @@ except ImportError:
   class _MissingRequests:
     def __getattr__(self, name: str) -> Any:
       def _missing(*args: Any, **kwargs: Any) -> None:
-        raise RuntimeError(
-          f"The 'requests' package is not installed; install it to enable HTTP functionality (attribute: {name})")
+        raise RuntimeError(f"The 'requests' package is not installed; install it to enable HTTP functionality (attribute: {name})")
       return _missing
   requests: _MissingRequests = _MissingRequests()
 
@@ -34,16 +33,16 @@ except ImportError:
 load_dotenv()
 
 # Parse command line arguments
-parser = argparse.ArgumentParser(description="Run Advent of Code challenges.")
-parser.add_argument("-d", "--day", type=int, help="Specify the day of the challenge (1-25).")  # noqa
-parser.add_argument("-y", "--year", type=int, help="Specify the year of the challenge (2015-current).")  # noqa
-parser.add_argument("-s", "--setup", action="store_true", help="Set up the directory structure and files.")  # noqa
+parser = argparse.ArgumentParser(description="Run Advent of Code challenges.")  # fmt: skip
+parser.add_argument("-d", "--day", type=int, help="Specify the day of the challenge (1-25).")  # fmt: skip
+parser.add_argument("-y", "--year", type=int, help="Specify the year of the challenge (2015-current).")  # fmt: skip
+parser.add_argument("-s", "--setup", action="store_true", help="Set up the directory structure and files.")  # fmt: skip
 args: argparse.Namespace = parser.parse_args()
 
 # Set global variables
 session_cookie: str | None = os.getenv('AOC_COOKIE')  # .format(year, day)
 input_url: str = "https://adventofcode.com/{}/day/{}/input"
-current_year: int = datetime.datetime.now().year
+current_year: int = datetime.datetime.now().year  # noqa: DTZ005
 default_code_template: str = """def part1(data: list[str]) -> str | int | float | None:
   return None
 
@@ -53,7 +52,7 @@ def part2(data: list[str]) -> str | int | float | None:
 
 
 # Format execution time in a human-readable format
-def format_executiontime(milliseconds: int | float) -> str:
+def format_executiontime(milliseconds: float) -> str:
   if milliseconds < 1:
     return f"{round(milliseconds * 1000)}µs"
   elif milliseconds < 1000:
@@ -108,7 +107,7 @@ def execute_challenge(day_padded: str, year: int) -> None:
   part1_time: float = run_part(1, module, input_data) or 0
   part2_time: float = run_part(2, module, input_data) or 0
   total_time: float = part1_time + part2_time
-  print(f"Total runtime: {format_executiontime(total_time) if total_time else 'N/A'}")  # noqa
+  print(f"Total runtime: {format_executiontime(total_time) if total_time else 'N/A'}")
 
 
 # Run the challenge for the selected year
@@ -120,14 +119,14 @@ def run(selected_year: int = current_year, selected_day: int | None = None) -> N
     if selected_day is None or not (1 <= selected_day <= 25):
       raise ValueError("Day must be a number between 1 and 25")
 
-    subprocess.run('cls' if os.name == 'nt' else ['clear'], shell=True)
+    subprocess.run('cls' if os.name == 'nt' else ['clear'], shell=True, check=False)
     execute_challenge(str(selected_day).zfill(2), selected_year)
 
   except KeyboardInterrupt:
     print("\nExiting...")
 
   except Exception as error:
-    raise RuntimeError(f"An error occurred: {type(error).__name__}: {error}") from error  # noqa
+    raise RuntimeError(f"An error occurred: {type(error).__name__}: {error}") from error
 
 
 # Create a file with default code template if it does not exist
@@ -142,7 +141,7 @@ def download_input_file(year: int, day: str, input_file: str) -> None:
   if session_cookie is None:
     raise ValueError("Session cookie is not set")
 
-  response = requests.get(input_url.format(year, int(day)), cookies={
+  response: requests.Response = requests.get(input_url.format(year, int(day)), cookies={
       "session": session_cookie
   })
 
@@ -195,7 +194,7 @@ def setup() -> None:
 
 # ------------------------ RUN CODE BELOW ------------------------
 if __name__ == "__main__":
-  subprocess.run('cls' if os.name == 'nt' else ['clear'], shell=True)
+  subprocess.run('cls' if os.name == 'nt' else ['clear'], shell=True, check=False)
   if args.setup:
     setup()
   else:
