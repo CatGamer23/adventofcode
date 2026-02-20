@@ -15,18 +15,25 @@ from typing import Any
 try:
   import requests
 except ImportError:
+
   class _MissingRequests:
     def __getattr__(self, name: str) -> Any:
       def _missing(*args: Any, **kwargs: Any) -> None:
-        raise RuntimeError(f"The 'requests' package is not installed; install it to enable HTTP functionality (attribute: {name})")
+        raise RuntimeError(
+          f"The 'requests' package is not installed; install it to enable HTTP functionality (attribute: {name})"
+        )
+
       return _missing
+
   requests: _MissingRequests = _MissingRequests()
 
 try:
   from dotenv import load_dotenv
 except ImportError:
+
   def load_dotenv() -> bool:
     return False
+
 
 # Load environment variables from a .env file
 # Currently only used for AOC_COOKIE
@@ -40,7 +47,7 @@ parser.add_argument("-s", "--setup", action="store_true", help="Set up the direc
 args: argparse.Namespace = parser.parse_args()
 
 # Set global variables
-session_cookie: str | None = os.getenv('AOC_COOKIE')  # .format(year, day)
+session_cookie: str | None = os.getenv("AOC_COOKIE")  # .format(year, day)
 input_url: str = "https://adventofcode.com/{}/day/{}/input"
 current_year: int = datetime.datetime.now().year  # noqa: DTZ005
 default_code_template: str = """def part1(data: list[str]) -> str | int | float | None:
@@ -67,7 +74,9 @@ def format_executiontime(milliseconds: float) -> str:
 
 
 # Run specific part for a given day and year
-def run_part(part_number: int, module: ModuleType, input_data: list[str]) -> float | None:
+def run_part(
+  part_number: int, module: ModuleType, input_data: list[str]
+) -> float | None:
   part_function: Any | None = getattr(module, f"part{part_number}", None)
   if not callable(part_function):
     print(f"No part{part_number} function")
@@ -86,9 +95,9 @@ def run_part(part_number: int, module: ModuleType, input_data: list[str]) -> flo
 
 # Get input data
 def get_input_data(day_padded: str, year: int) -> list[str]:
-  input_file_path: str = f'./{year}/Inputs/Day {day_padded} Input.txt'
+  input_file_path: str = f"./{year}/Inputs/Day {day_padded} Input.txt"
   try:
-    with open(input_file_path, 'r') as input_file:
+    with open(input_file_path, "r") as input_file:
       data_lines: list[str] = [line.rstrip() for line in input_file]
   except Exception as error:
     raise PermissionError(f"Unable to read file {input_file_path}") from error
@@ -101,7 +110,7 @@ def get_input_data(day_padded: str, year: int) -> list[str]:
 def execute_challenge(day_padded: str, year: int) -> None:
   print(f"AoC {year} - Day {day_padded}\n")
 
-  module: ModuleType = importlib.import_module(f'{year}.{day_padded}')
+  module: ModuleType = importlib.import_module(f"{year}.{day_padded}")
   input_data: list[str] = get_input_data(day_padded, year)
 
   part1_time: float = run_part(1, module, input_data) or 0
@@ -119,7 +128,7 @@ def run(selected_year: int = current_year, selected_day: int | None = None) -> N
     if selected_day is None or not (1 <= selected_day <= 25):
       raise ValueError("Day must be a number between 1 and 25")
 
-    subprocess.run('cls' if os.name == 'nt' else ['clear'], shell=True, check=False)
+    subprocess.run("cls" if os.name == "nt" else ["clear"], shell=True, check=False)
     execute_challenge(str(selected_day).zfill(2), selected_year)
 
   except KeyboardInterrupt:
@@ -132,7 +141,7 @@ def run(selected_year: int = current_year, selected_day: int | None = None) -> N
 # Create a file with default code template if it does not exist
 def create_file_if_not_exists(file_path: str) -> None:
   if not os.path.exists(file_path):
-    with open(file_path, 'w') as file:
+    with open(file_path, "w") as file:
       file.write(default_code_template)
 
 
@@ -151,7 +160,7 @@ def download_input_file(year: int, day: str, input_file: str) -> None:
   if response.text.startswith("<!DOCTYPE html>"):
     raise ValueError("Invalid session cookie or captcha required")
 
-  with open(input_file, 'w') as file:
+  with open(input_file, "w") as file:
     file.write(response.text.rstrip())
 
   os.chmod(input_file, S_IREAD)
@@ -177,10 +186,10 @@ def setup() -> None:
   for year, day in itertools.product(range(2015, current_year), range(1, 26)):
     day_padded = str(day).zfill(2)
 
-    day_file = f'./{year}/{day_padded}.py'
-    input_file = f'./{year}/Inputs/Day {day_padded} Input.txt'
+    day_file = f"./{year}/{day_padded}.py"
+    input_file = f"./{year}/Inputs/Day {day_padded} Input.txt"
 
-    os.makedirs(f'./{year}/Inputs/', exist_ok=True)
+    os.makedirs(f"./{year}/Inputs/", exist_ok=True)
 
     create_file_if_not_exists(day_file)
 
@@ -194,7 +203,7 @@ def setup() -> None:
 
 # ------------------------ RUN CODE BELOW ------------------------
 if __name__ == "__main__":
-  subprocess.run('cls' if os.name == 'nt' else ['clear'], shell=True, check=False)
+  subprocess.run("cls" if os.name == "nt" else ["clear"], shell=True, check=False)
   if args.setup:
     setup()
   else:
