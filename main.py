@@ -21,7 +21,7 @@ except ImportError:
         raise RuntimeError(
           f"The 'requests' package is not installed; install it to enable HTTP functionality (attribute: {name})")
       return _missing
-  requests = _MissingRequests()
+  requests: _MissingRequests = _MissingRequests()
 
 try:
   from dotenv import load_dotenv
@@ -38,7 +38,7 @@ parser = argparse.ArgumentParser(description="Run Advent of Code challenges.")
 parser.add_argument("-d", "--day", type=int, help="Specify the day of the challenge (1-25).")  # noqa
 parser.add_argument("-y", "--year", type=int, help="Specify the year of the challenge (2015-current).")  # noqa
 parser.add_argument("-s", "--setup", action="store_true", help="Set up the directory structure and files.")  # noqa
-args = parser.parse_args()
+args: argparse.Namespace = parser.parse_args()
 
 # Set global variables
 session_cookie: str | None = os.getenv('AOC_COOKIE')  # .format(year, day)
@@ -69,7 +69,7 @@ def format_executiontime(milliseconds: int | float) -> str:
 
 # Run specific part for a given day and year
 def run_part(part_number: int, module: ModuleType, input_data: list[str]) -> float | None:
-  part_function = getattr(module, f"part{part_number}", None)
+  part_function: Any | None = getattr(module, f"part{part_number}", None)
   if not callable(part_function):
     print(f"No part{part_number} function")
     return None
