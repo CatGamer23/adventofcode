@@ -1,8 +1,6 @@
 from dataclasses import dataclass
 from itertools import combinations, product
 
-from rich import print
-
 
 def part1(data: list[str]) -> str | int | float | None:
   boss_hp: int = int(data[0].split(": ")[1])
@@ -24,14 +22,14 @@ def part1(data: list[str]) -> str | int | float | None:
 
   items: list[Item] = [
     # weapons
-    Item("Dagger", 8, 4, 0), Item("Shortsword", 10, 5, 0), Item("Warhammer", 25, 6, 0),
+    Item("Dagger", 8, 4, 0), Item("Shortsword", 10, 5, 0), Item("Warhammer", 25, 6, 0),  # noqa
     Item("Longsword", 40, 7, 0), Item("Greataxe", 74, 8, 0),
     # armor
-    Item("No Armor", 0, 0, 0), Item("Leather", 13, 0, 1), Item("Chainmail", 31, 0, 2),
+    Item("No Armor", 0, 0, 0), Item("Leather", 13, 0, 1), Item("Chainmail", 31, 0, 2),  # noqa
     Item("Splintmail", 53, 0, 3), Item("Bandedmail", 75, 0, 4),
     # rings
-    Item("No Ring", 0, 0, 0), Item("Damage +1", 25, 1, 0), Item("Damage +2", 50, 2, 0),
-    Item("Damage +3", 100, 3, 0), Item("Defense +1", 20, 0, 1), Item("Defense +2", 40, 0, 2),
+    Item("No Ring", 0, 0, 0), Item("Damage +1", 25, 1, 0), Item("Damage +2", 50, 2, 0),  # noqa
+    Item("Damage +3", 100, 3, 0), Item("Defense +1", 20, 0, 1), Item("Defense +2", 40, 0, 2),  # noqa
     Item("Defense +3", 80, 0, 3)
   ]
 

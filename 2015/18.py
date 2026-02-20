@@ -22,7 +22,7 @@ def part1(data: list[str]) -> str | int | float | None:
 
 
 def part2(data: list[str]) -> str | int | float | None:
-  grid: np.ndarray[Any, np.dtype[np.int_]] = np.array([[char == '#' for char in row] for row in data], dtype=np.int32)  # noqa
+  grid: np.ndarray[Any, np.dtype[np.int32]] = np.array([[char == '#' for char in row] for row in data], dtype=np.int32)  # noqa
 
   for _ in range(100):
     next_grid: np.ndarray[Any, np.dtype[np.int32]] = np.zeros_like(grid)
