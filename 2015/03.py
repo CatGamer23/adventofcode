@@ -29,10 +29,10 @@ def part2(data: list[str]) -> str | int | float | None:
 
   for i, direction in enumerate(data[0]):
     if i % 2 == 0:
-      santa: tuple[int, int] = (santa[0] + lookupTable[direction][0], santa[1] + lookupTable[direction][1])  # fmt: off
+      santa: tuple[int, int] = (santa[0] + lookupTable[direction][0], santa[1] + lookupTable[direction][1])  # fmt: skip
       visited.add(santa)
     else:
-      robot: tuple[int, int] = (robot[0] + lookupTable[direction][0], robot[1] + lookupTable[direction][1])  # fmt: off
+      robot: tuple[int, int] = (robot[0] + lookupTable[direction][0], robot[1] + lookupTable[direction][1])  # fmt: skip
       visited.add(robot)
 
   return len(visited)
