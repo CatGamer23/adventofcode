@@ -15,7 +15,6 @@ from typing import Any
 try:
   import requests
 except ImportError:
-
   class _MissingRequests:
     def __getattr__(self, name: str) -> Any:
       def _missing(*args: Any, **kwargs: Any) -> None:
@@ -30,7 +29,6 @@ except ImportError:
 try:
   from dotenv import load_dotenv
 except ImportError:
-
   def load_dotenv() -> bool:
     return False
 

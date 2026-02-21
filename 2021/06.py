@@ -1,5 +1,5 @@
 def part1(data: list[str]) -> str | int | float | None:
-  laternFishes = data[0].split(',')
+  laternFishes: list[str] = data[0].split(',')
   for _ in range(80):
     for i in range(len(laternFishes)):
       laternFishes[i] = int(laternFishes[i])
@@ -12,7 +12,7 @@ def part1(data: list[str]) -> str | int | float | None:
 
 
 def part2(data: list[str]) -> str | int | float | None:
-  laternFishes = data[0].split(',')
+  laternFishes: list[str] = data[0].split(',')
   for _ in range(256):
     for i in range(len(laternFishes)):
       laternFishes[i] = int(laternFishes[i])
