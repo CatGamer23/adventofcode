@@ -3,8 +3,9 @@ from itertools import groupby
 
 def part1(data: list[str]) -> str | int | float | None:
   largest = 0
-  reformattedData: list[list[str]] =  [list(group) for key, group in groupby(
-    data, key=lambda x: x == '') if not key]
+  reformattedData: list[list[str]] = [
+    list(group) for key, group in groupby(data, key=lambda x: x == "") if not key
+  ]
 
   for subList in reformattedData:
     total = 0
@@ -18,10 +19,13 @@ def part1(data: list[str]) -> str | int | float | None:
 def part2(data: list[str]) -> str | int | float | None:
   finaltotal = 0
   totalsList: list[int] = []
-  reformattedData: list[list[str]] =  [list(group) for key, group in groupby(
-    data, key=lambda x: x == '') if not key]
+  reformattedData: list[list[str]] = [
+    list(group) for key, group in groupby(data, key=lambda x: x == "") if not key
+  ]
 
-  totalsList.extend(sum(int(calorie) for calorie in subList) for subList in reformattedData)
+  totalsList.extend(
+    sum(int(calorie) for calorie in subList) for subList in reformattedData
+  )
   totalsList.sort()
 
   for i in totalsList[-3:]:

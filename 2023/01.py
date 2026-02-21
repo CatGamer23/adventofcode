@@ -1,10 +1,7 @@
-from typing import LiteralString
-
-
 def part1(data: list[str]) -> str | int | float | None:
   total = 0
   for line in data:
-    num: str = ''.join(char for char in line if char.isdigit())
+    num: str = "".join(char for char in line if char.isdigit())
     finalnum: str = num[0]
     finalnum += num[-1]
     total += int(finalnum)
@@ -12,16 +9,26 @@ def part1(data: list[str]) -> str | int | float | None:
 
 
 def part2(data: list[str]) -> str | int | float | None:
-  conversionTable: dict[str, int] = {"one": 1, "two": 2, "three": 3, "four": 4, "five": 5, "six": 6, "seven": 7, "eight": 8, "nine": 9}
+  conversionTable: dict[str, str] = {
+    "one": "1",
+    "two": "2",
+    "three": "3",
+    "four": "4",
+    "five": "5",
+    "six": "6",
+    "seven": "7",
+    "eight": "8",
+    "nine": "9",
+  }
   total = 0
   for line in data:
-    finalnum = ""
+    finalnum: str = ""
     for char in line:
-      letter: LiteralString = ''.join(char)
+      letter: str = "".join(char)
       if letter in conversionTable:
         finalnum += conversionTable[letter]
       if char.isdigit():
         finalnum += char
     print(finalnum)
-    # total += int(str(finalnum[0]) + str(finalnum[-1]))
+    # total += int(finalnum[0] + finalnum[-1])
   return total
