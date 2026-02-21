@@ -3,7 +3,8 @@ import math
 
 def get_divisors(number: int) -> set[int]:
   return {
-    i for i in range(1, int(math.sqrt(number)) + 1)
+    i
+    for i in range(1, int(math.sqrt(number)) + 1)
     if number % i == 0
     for i in (i, number // i)
   }

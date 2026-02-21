@@ -21,7 +21,7 @@ def part2(data: list[str]) -> str | int | float | None:
     for combination in itertools.combinations(container_sizes, i):
       if sum(combination) == 150:
         if len(valid_combinations) == 0:
-          valid_combinations = [combination]
+          valid_combinations: list[tuple[int, ...]] = [combination]
         elif len(combination) <= len(valid_combinations[0]):
           valid_combinations.append(combination)
 
