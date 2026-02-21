@@ -15,7 +15,7 @@ def eval_expr(
 
   # If the expression is a NOT operation, evaluate the operand and apply bitwise NOT
   elif len(expression) == 2:
-    result = ~eval_expr(instructions, expression[1], cache)
+    result: int = ~eval_expr(instructions, expression[1], cache)
 
   # Evaluate the left and right operands
   else:
@@ -24,13 +24,13 @@ def eval_expr(
 
     # Apply the appropriate bitwise operation based upon operator
     if expression[1] == "AND":
-      result = left & right
+      result: int = left & right
     elif expression[1] == "OR":
-      result = left | right
+      result: int = left | right
     elif expression[1] == "LSHIFT":
-      result = left << right
+      result: int = left << right
     elif expression[1] == "RSHIFT":
-      result = left >> right
+      result: int = left >> right
     else:
       raise ValueError(f"Unknown operator: {expression[1]}")
 

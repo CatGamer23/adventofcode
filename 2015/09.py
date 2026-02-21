@@ -2,14 +2,14 @@ import itertools
 
 
 def part1(data: list[str]) -> str | int | float | None:
-  shortest_distance: float = float('inf')
+  shortest_distance: float = float("inf")
   route_distances: set[int] = set()
   cities: set[str] = set()
   distances: dict[tuple[str, str], int] = {}
 
   # Each line: city1 to city2 = distance
   for line in data:
-    parts = line.split(' ')
+    parts: list[str] = line.split(" ")
     city1: str = parts[0]
     city2: str = parts[2]
     distance: int = int(parts[4])
@@ -26,20 +26,20 @@ def part1(data: list[str]) -> str | int | float | None:
       total_distance += distances[(route[i], route[i + 1])]
     route_distances.add(total_distance)
 
-  shortest_distance = min(route_distances)
+  shortest_distance: int = min(route_distances)
 
   return shortest_distance
 
 
 def part2(data: list[str]) -> str | int | float | None:
-  shortest_distance: float = float('inf')
+  shortest_distance: float = float("inf")
   route_distances: set[int] = set()
   cities: set[str] = set()
   distances: dict[tuple[str, str], int] = {}
 
   # Each line: city1 to city2 = distance
   for line in data:
-    parts = line.split(' ')
+    parts: list[str] = line.split(" ")
     city1: str = parts[0]
     city2: str = parts[2]
     distance: int = int(parts[4])
@@ -56,6 +56,6 @@ def part2(data: list[str]) -> str | int | float | None:
       total_distance += distances[(route[i], route[i + 1])]
     route_distances.add(total_distance)
 
-  shortest_distance = max(route_distances)
+  shortest_distance: int = max(route_distances)
 
   return shortest_distance

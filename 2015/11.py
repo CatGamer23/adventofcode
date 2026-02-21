@@ -1,19 +1,19 @@
 from string import ascii_lowercase
 
 
-def from_decimal(number: int, base: int = 26) -> str:
+def from_decimal(value: int, base: int = 26) -> str:
   digits: list[str] = []
-  while number > 0:
-    number -= 1
-    number, remainder = divmod(number, base)
-    digits.append(chr(remainder + ord('a')))
-  return ''.join(digits[::-1])
+  while value > 0:
+    value -= 1
+    value, remainder = divmod(value, base)
+    digits.append(chr(remainder + ord("a")))
+  return "".join(reversed(digits))
 
 
 def to_decimal(string: str, base: int = 26) -> int:
   result: int = 0
   for char in string:
-    result = result * base + (ord(char) - ord('a') + 1)
+    result: int = result * base + (ord(char) - ord("a") + 1)
   return result
 
 
@@ -30,13 +30,12 @@ def part1(data: list[str]) -> str | int | float | None:
     password: str = from_decimal(data_as_int)
 
     # Rule 1
-    if 'i' in password or 'o' in password or 'l' in password:
+    if "i" in password or "o" in password or "l" in password:
       continue
 
     # Rule 2
     three_in_a_row: bool = any(
-      password[i:i + 3] in ascii_lowercase
-      for i in range(len(password) - 2)
+      password[i : i + 3] in ascii_lowercase for i in range(len(password) - 2)
     )
 
     if not three_in_a_row:
@@ -68,13 +67,12 @@ def part2(data: list[str]) -> str | int | float | None:
     password: str = from_decimal(data_as_int)
 
     # Rule 1
-    if 'i' in password or 'o' in password or 'l' in password:
+    if "i" in password or "o" in password or "l" in password:
       continue
 
     # Rule 2
     three_in_a_row: bool = any(
-      password[i:i + 3] in ascii_lowercase
-      for i in range(len(password) - 2)
+      password[i : i + 3] in ascii_lowercase for i in range(len(password) - 2)
     )
 
     if not three_in_a_row:
