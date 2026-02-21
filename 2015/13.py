@@ -23,7 +23,7 @@ def part1(data: list[str]) -> str | int | float | None:
     for i in range(len(perm)):
       happiness += people_cache[perm[i]][perm[(i + 1) % len(perm)]]
       happiness += people_cache[perm[i]][perm[(i - 1) % len(perm)]]
-    biggest_change = max(biggest_change, happiness)
+    biggest_change: int = max(biggest_change, happiness)
 
   return biggest_change
 
@@ -53,6 +53,6 @@ def part2(data: list[str]) -> str | int | float | None:
     for i in range(len(perm)):
       happiness += people_cache[perm[i]][perm[(i + 1) % len(perm)]]
       happiness += people_cache[perm[i]][perm[(i - 1) % len(perm)]]
-    biggest_change = max(biggest_change, happiness)
+    biggest_change: int = max(biggest_change, happiness)
 
   return biggest_change
