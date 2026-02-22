@@ -119,8 +119,8 @@ def execute_challenge(day_padded: str, year: int) -> None:
 
 # Run the challenge for the selected year
 def run(selected_year: int = current_year, selected_day: int | None = None) -> None:
-  selected_year = args.year or int(input("Year: ").strip())
-  selected_day = args.day or int(input("Day: ").strip())
+  selected_year: int = args.year or int(input("Year: ").strip())
+  selected_day: int = args.day or int(input("Day: ").strip())
 
   try:
     if selected_day is None or not (1 <= selected_day <= 25):
