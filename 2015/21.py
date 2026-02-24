@@ -2,6 +2,38 @@ from dataclasses import dataclass
 from itertools import combinations, product
 
 
+@dataclass
+class Item:
+  name: str
+  cost: int
+  damage: int
+  armor: int
+
+
+items: list[Item] = [
+  # weapons
+  Item("Dagger", 8, 4, 0),
+  Item("Shortsword", 10, 5, 0),
+  Item("Warhammer", 25, 6, 0),
+  Item("Longsword", 40, 7, 0),
+  Item("Greataxe", 74, 8, 0),
+  # armor
+  Item("No Armor", 0, 0, 0),
+  Item("Leather", 13, 0, 1),
+  Item("Chainmail", 31, 0, 2),
+  Item("Splintmail", 53, 0, 3),
+  Item("Bandedmail", 75, 0, 4),
+  # rings
+  Item("No Ring", 0, 0, 0),
+  Item("Damage +1", 25, 1, 0),
+  Item("Damage +2", 50, 2, 0),
+  Item("Damage +3", 100, 3, 0),
+  Item("Defense +1", 20, 0, 1),
+  Item("Defense +2", 40, 0, 2),
+  Item("Defense +3", 80, 0, 3),
+]
+
+
 def part1(data: list[str]) -> str | int | float | None:
   boss_hp: int = int(data[0].split(": ")[1])
   boss_damage: int = int(data[1].split(": ")[1])
@@ -12,36 +44,6 @@ def part1(data: list[str]) -> str | int | float | None:
     player_turns_to_win: int = -(-boss_hp // max(1, player_damage - boss_armor))
     boss_turns_to_win: int = -(-player_hp // max(1, boss_damage - player_armor))
     return player_turns_to_win <= boss_turns_to_win
-
-  @dataclass
-  class Item:
-    name: str
-    cost: int
-    damage: int
-    armor: int
-
-  items: list[Item] = [
-    # weapons
-    Item("Dagger", 8, 4, 0),
-    Item("Shortsword", 10, 5, 0),
-    Item("Warhammer", 25, 6, 0),
-    Item("Longsword", 40, 7, 0),
-    Item("Greataxe", 74, 8, 0),
-    # armor
-    Item("No Armor", 0, 0, 0),
-    Item("Leather", 13, 0, 1),
-    Item("Chainmail", 31, 0, 2),
-    Item("Splintmail", 53, 0, 3),
-    Item("Bandedmail", 75, 0, 4),
-    # rings
-    Item("No Ring", 0, 0, 0),
-    Item("Damage +1", 25, 1, 0),
-    Item("Damage +2", 50, 2, 0),
-    Item("Damage +3", 100, 3, 0),
-    Item("Defense +1", 20, 0, 1),
-    Item("Defense +2", 40, 0, 2),
-    Item("Defense +3", 80, 0, 3),
-  ]
 
   min_cost: float = float("inf")
   for weapon, armor, (ring1, ring2) in product(
@@ -66,36 +68,6 @@ def part2(data: list[str]) -> str | int | float | None:
     player_turns_to_win: int = -(-boss_hp // max(1, player_damage - boss_armor))
     boss_turns_to_win: int = -(-player_hp // max(1, boss_damage - player_armor))
     return player_turns_to_win > boss_turns_to_win
-
-  @dataclass
-  class Item:
-    name: str
-    cost: int
-    damage: int
-    armor: int
-
-  items: list[Item] = [
-    # weapons
-    Item("Dagger", 8, 4, 0),
-    Item("Shortsword", 10, 5, 0),
-    Item("Warhammer", 25, 6, 0),
-    Item("Longsword", 40, 7, 0),
-    Item("Greataxe", 74, 8, 0),
-    # armor
-    Item("No Armor", 0, 0, 0),
-    Item("Leather", 13, 0, 1),
-    Item("Chainmail", 31, 0, 2),
-    Item("Splintmail", 53, 0, 3),
-    Item("Bandedmail", 75, 0, 4),
-    # rings
-    Item("No Ring", 0, 0, 0),
-    Item("Damage +1", 25, 1, 0),
-    Item("Damage +2", 50, 2, 0),
-    Item("Damage +3", 100, 3, 0),
-    Item("Defense +1", 20, 0, 1),
-    Item("Defense +2", 40, 0, 2),
-    Item("Defense +3", 80, 0, 3),
-  ]
 
   max_cost: float = float("-inf")
   for weapon, armor, (ring1, ring2) in product(
