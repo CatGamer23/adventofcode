@@ -6,6 +6,7 @@
     "**/LICENSE",
     "**/README.md",
     "**/requirements.txt",
+    ".vscode",
 
     // CHANGE THIS LINE: List only the folders you want to HIDE
     "**/20{10,11,12,13,14,,16,17,18,19,20,21,22,23,24,25,26}"

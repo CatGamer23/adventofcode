@@ -6,6 +6,7 @@
     "LICENSE": true,
     "README.md": true,
     "requirements.txt": true,
+    ".zed": true,
 
     // CHANGE THIS LINE: Add or remove folder names to control visibility
     "**/20{10,11,12,13,14,16,17,18,19,20,21,22,23,24,25,26}": true
