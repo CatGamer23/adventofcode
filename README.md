@@ -23,7 +23,7 @@ cd adventofcode
 pip install -r requirements.txt
 ```
 
-3. (**important**) Delete all input files to avoid incorrect answers, as each input is unique per user.
+3. (**Important**) Delete all input files to avoid incorrect answers, as each input is unique per user.
 
 ```sh
 find . -type d -name 'Inputs' -exec rm -rf {} +
