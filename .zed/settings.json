@@ -1,5 +1,6 @@
 {
   "file_scan_exclusions": [
+    "**/.git",
     "**/.gitignore",
     "**/.venv",
     "**/Inputs",
