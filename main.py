@@ -35,13 +35,13 @@ except ImportError:
 
 # Load environment variables from a .env file
 # Currently only used for AOC_COOKIE
-load_dotenv()
+_ = load_dotenv()
 
 # Parse command line arguments
 parser = argparse.ArgumentParser(description="Run Advent of Code challenges.")  # fmt: skip
-parser.add_argument("-d", "--day", type=int, help="Specify the day of the challenge (1-25).")  # fmt: skip
-parser.add_argument("-y", "--year", type=int, help="Specify the year of the challenge (2015-current).")  # fmt: skip
-parser.add_argument("-s", "--setup", action="store_true", help="Set up the directory structure and files.")  # fmt: skip
+_ = parser.add_argument("-d", "--day", type=int, help="Specify the day of the challenge (1-25).")  # fmt: skip
+_ = parser.add_argument("-y", "--year", type=int, help="Specify the year of the challenge (2015-current).")  # fmt: skip
+_ = parser.add_argument("-s", "--setup", action="store_true", help="Set up the directory structure and files.")  # fmt: skip
 args: argparse.Namespace = parser.parse_args()
 
 # Set global variables
@@ -75,14 +75,14 @@ def format_executiontime(milliseconds: float) -> str:
 def run_part(
   part_number: int, module: ModuleType, input_data: list[str]
 ) -> float | None:
-  part_function: Any | None = getattr(module, f"part{part_number}", None)
+  part_function: str | int | float | None = getattr(module, f"part{part_number}", None)
   if not callable(part_function):
     print(f"No part{part_number} function")
     return None
 
   print(f"Running Part {part_number}")
   start_time: float = time.perf_counter()
-  result: Any = part_function(input_data)
+  result: str | int | float | None = part_function(input_data)
   end_time: float = time.perf_counter()
 
   print(f"Output: {result}")
