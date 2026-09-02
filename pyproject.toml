@@ -5,10 +5,16 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.14"
 dependencies = [
-  "numpy>=2.4.2",
-  "python-dotenv>=1.2.1",
-  "requests>=2.32.5",
-  "rich>=14.3.3",
+  "certifi==2026.7.22",
+  "charset-normalizer==3.5.1",
+  "idna==3.19",
+  "markdown-it-py==4.2.0",
+  "numpy==2.5.2",
+  "pygments==2.21.0",
+  "python-dotenv==1.2.3",
+  "requests==2.34.2",
+  "rich==15.0.0",
+  "urllib3==2.7.0",
 ]
 
 [tool.ruff]
