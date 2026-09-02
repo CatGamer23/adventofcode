@@ -19,16 +19,25 @@ from dotenv import load_dotenv
 _ = load_dotenv()
 
 # Parse command line arguments
-parser = argparse.ArgumentParser(description="Run Advent of Code challenges.")  # fmt: skip
-_ = parser.add_argument("-d", "--day", type=int, help="Specify the day of the challenge (1-25).")  # fmt: skip
-_ = parser.add_argument("-y", "--year", type=int, help="Specify the year of the challenge (2015-current).")  # fmt: skip
-_ = parser.add_argument("-s", "--setup", action="store_true", help="Set up the directory structure and files.")  # fmt: skip
+parser = argparse.ArgumentParser(description="Run Advent of Code challenges.")
+_ = parser.add_argument(
+  "-d", "--day", type=int, help="Specify the day of the challenge (1-25)."
+)
+_ = parser.add_argument(
+  "-y",
+  "--year",
+  type=int,
+  default=datetime.datetime.now(tz=datetime.UTC).year,
+  help="Specify the year of the challenge (2015-current).",
+)
+_ = parser.add_argument(
+  "-s", "--setup", action="store_true", help="Set up the directory structure and files."
+)
 args: argparse.Namespace = parser.parse_args()
 
 # Set global variables
 session_cookie: str | None = os.getenv("AOC_COOKIE")  # .format(year, day)
 input_url: str = "https://adventofcode.com/{}/day/{}/input"
-current_year: int = datetime.datetime.now().year  # noqa: DTZ005
 default_code_template: str = """def part1(data: list[str]) -> str | int | float | None:
   return None
 
@@ -39,16 +48,16 @@ def part2(data: list[str]) -> str | int | float | None:
 
 # Format execution time in a human-readable format
 def format_executiontime(milliseconds: float) -> str:
-  if milliseconds < 1:
+  if milliseconds < 1:  # < 1 millisecond (microseconds)
     return f"{round(milliseconds * 1000)}µs"
-  elif milliseconds < 1000:
+  elif milliseconds < 1000:  # < 1 second (milliseconds)
     return f"{round(milliseconds)}ms"
-  elif milliseconds < 60000:
+  elif milliseconds < 60000:  # < 1 minute (seconds)
     return f"{round(milliseconds / 1000, 2)}s"
-  elif milliseconds < 3600000:
+  elif milliseconds < 3600000:  # < 1 hour (minutes and seconds)
     minutes, seconds = divmod(milliseconds / 1000, 60)
     return f"{int(minutes)}m {round(seconds, 2)}s"
-  else:
+  else:  # >= 1 hour
     return "You took way too long to solve this problem..."
 
 
@@ -99,16 +108,16 @@ def execute_challenge(day_padded: str, year: int) -> None:
 
 
 # Run the challenge for the selected year
-def run(selected_year: int = current_year, selected_day: int | None = None) -> None:
-  selected_year: int = args.year or int(input("Year: ").strip())
-  selected_day: int = args.day or int(input("Day: ").strip())
+def run(selected_year: int | None = None, selected_day: int | None = None) -> None:
+  year: int = selected_year or args.year
+  day: int = selected_day or args.day or int(input("Day: ").strip())
 
   try:
-    if selected_day is None or not (1 <= selected_day <= 25):
+    if not (1 <= day <= 25):
       raise ValueError("Day must be a number between 1 and 25")
 
     _ = subprocess.run("cls" if os.name == "nt" else ["clear"], shell=True, check=False)
-    execute_challenge(str(selected_day).zfill(2), selected_year)
+    execute_challenge(str(day).zfill(2), year)
 
   except KeyboardInterrupt:
     print("\nExiting...")
