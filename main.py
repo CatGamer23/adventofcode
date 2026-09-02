@@ -10,30 +10,9 @@ import subprocess
 import time
 from stat import S_IREAD
 from types import ModuleType
-from typing import Any
 
-try:
-  import requests
-except ImportError:
-
-  class _MissingRequests:
-    def __getattr__(self, name: str) -> Any:
-      def _missing(*args: Any, **kwargs: Any) -> None:
-        raise RuntimeError(
-          f"The 'requests' package is not installed; install it to enable HTTP functionality (attribute: {name})"
-        )
-
-      return _missing
-
-  requests: _MissingRequests = _MissingRequests()
-
-try:
-  from dotenv import load_dotenv
-except ImportError:
-
-  def load_dotenv() -> bool:
-    return False
-
+import requests
+from dotenv import load_dotenv
 
 # Load environment variables from a .env file
 # Currently only used for AOC_COOKIE
@@ -128,7 +107,7 @@ def run(selected_year: int = current_year, selected_day: int | None = None) -> N
     if selected_day is None or not (1 <= selected_day <= 25):
       raise ValueError("Day must be a number between 1 and 25")
 
-    subprocess.run("cls" if os.name == "nt" else ["clear"], shell=True, check=False)
+    _ = subprocess.run("cls" if os.name == "nt" else ["clear"], shell=True, check=False)
     execute_challenge(str(selected_day).zfill(2), selected_year)
 
   except KeyboardInterrupt:
@@ -142,7 +121,7 @@ def run(selected_year: int = current_year, selected_day: int | None = None) -> N
 def create_file_if_not_exists(file_path: str) -> None:
   if not os.path.exists(file_path):
     with open(file_path, "w") as file:
-      file.write(default_code_template)
+      _ = file.write(default_code_template)
 
 
 # Download the input file for a given day and year
@@ -161,7 +140,7 @@ def download_input_file(year: int, day: str, input_file: str) -> None:
     raise ValueError("Invalid session cookie or captcha required")
 
   with open(input_file, "w") as file:
-    file.write(response.text.rstrip())
+    _ = file.write(response.text.rstrip())
 
   os.chmod(input_file, S_IREAD)
 
@@ -203,7 +182,7 @@ def setup() -> None:
 
 # ------------------------ RUN CODE BELOW ------------------------
 if __name__ == "__main__":
-  subprocess.run("cls" if os.name == "nt" else ["clear"], shell=True, check=False)
+  _ = subprocess.run("cls" if os.name == "nt" else ["clear"], shell=True, check=False)
   if args.setup:
     setup()
   else:
