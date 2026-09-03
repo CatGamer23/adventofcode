@@ -1,5 +1,7 @@
 from dataclasses import dataclass
 
+from main import Solution
+
 
 @dataclass
 class Item:
@@ -15,14 +17,14 @@ items: list[Item] = [
   # Spells
   Item("Magic Missile", 53, 4, 0, 0, 0),
   Item("Drain", 73, 2, 0, 2, 0),
-
   # Effects
   Item("Shield", 113, 0, 7, 0, 6),
   Item("Poison", 173, 3, 0, 0, 6),
   Item("Recharge", 229, 0, 0, 101, 5),
 ]
 
-def part1(data: list[str]) -> str | int | float | None:
+
+def part1(data: list[str]) -> Solution:
   boss_hp: int = int(data[0].split(": ")[1])
   boss_damage: int = int(data[1].split(": ")[1])
   player_hp: int = 50
@@ -39,5 +41,5 @@ def part1(data: list[str]) -> str | int | float | None:
   return None
 
 
-def part2(data: list[str]) -> str | int | float | None:
+def part2(data: list[str]) -> Solution:
   return None

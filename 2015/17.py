@@ -1,7 +1,9 @@
 import itertools
 
+from main import Solution
 
-def part1(data: list[str]) -> str | int | float | None:
+
+def part1(data: list[str]) -> Solution:
   container_sizes: list[int] = list(map(int, data))
 
   valid_combinations: int = 0
@@ -13,7 +15,7 @@ def part1(data: list[str]) -> str | int | float | None:
   return valid_combinations
 
 
-def part2(data: list[str]) -> str | int | float | None:
+def part2(data: list[str]) -> Solution:
   container_sizes: list[int] = list(map(int, data))
 
   valid_combinations: list[tuple[int, ...]] = []

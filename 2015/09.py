@@ -1,8 +1,9 @@
 import itertools
 
+from main import Solution
 
-def part1(data: list[str]) -> str | int | float | None:
-  shortest_distance: float = float("inf")
+
+def part1(data: list[str]) -> Solution:
   route_distances: set[int] = set()
   cities: set[str] = set()
   distances: dict[tuple[str, str], int] = {}
@@ -31,8 +32,7 @@ def part1(data: list[str]) -> str | int | float | None:
   return shortest_distance
 
 
-def part2(data: list[str]) -> str | int | float | None:
-  shortest_distance: float = float("inf")
+def part2(data: list[str]) -> Solution:
   route_distances: set[int] = set()
   cities: set[str] = set()
   distances: dict[tuple[str, str], int] = {}

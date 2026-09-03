@@ -1,3 +1,6 @@
+from main import Solution
+
+
 def eval_expr(
   instructions: dict[str, tuple[str, ...]], wire: str, cache: dict[str, int]
 ) -> int:
@@ -38,7 +41,7 @@ def eval_expr(
   return result
 
 
-def part1(data: list[str]) -> str | int | float | None:
+def part1(data: list[str]) -> Solution:
   instructions: dict[str, tuple[str, ...]] = {
     line.split(" -> ")[1]: tuple(line.split(" -> ")[0].split()) for line in data
   }
@@ -46,7 +49,7 @@ def part1(data: list[str]) -> str | int | float | None:
   return eval_expr(instructions, "a", {})
 
 
-def part2(data: list[str]) -> str | int | float | None:
+def part2(data: list[str]) -> Solution:
   # Now, take the signal you got on wire a, override wire b to that signal,
   # and reset the other wires (including wire a). What new signal is ultimately provided to wire a?
   instructions: dict[str, tuple[str, ...]] = {

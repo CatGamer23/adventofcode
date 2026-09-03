@@ -1,7 +1,9 @@
 from typing import Literal
 
+from main import Solution
 
-def part1(data: list[str]) -> str | int | float | None:
+
+def part1(data: list[str]) -> Solution:
   priority = 0
   for line in data:
     middle_index: int = len(line) // 2
@@ -14,7 +16,7 @@ def part1(data: list[str]) -> str | int | float | None:
   return str(priority)
 
 
-def part2(data: list[str]) -> str | int | float | None:
+def part2(data: list[str]) -> Solution:
   groups: list[list[str]] = [
     [data[i], data[i + 1], data[i + 2]] for i, _ in enumerate(data[:-2]) if i % 3 == 0
   ]

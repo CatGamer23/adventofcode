@@ -1,4 +1,7 @@
-def part1(data: list[str]) -> str | int | float | None:
+from main import Solution
+
+
+def part1(data: list[str]) -> Solution:
   # *replacement_rules, _, starting_molecule = data
   replacement_rules: list[str] = data[:-2]
   starting_molecule: str = data[-1]
@@ -18,7 +21,7 @@ def part1(data: list[str]) -> str | int | float | None:
   return len(unique_molecules)
 
 
-def part2(data: list[str]) -> str | int | float | None:
+def part2(data: list[str]) -> Solution:
   replacement_rules: list[tuple[str, ...]] = [
     tuple(rule.split(" => ")[::-1]) for rule in data[:-2]
   ]

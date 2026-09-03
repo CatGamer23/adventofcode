@@ -1,4 +1,7 @@
-def part1(data: list[str]) -> str | int | float | None:
+from main import Solution
+
+
+def part1(data: list[str]) -> Solution:
   cache: dict[int, dict[str, int]] = {}
   gift_sender: dict[str, int] = {
     "children": 3,
@@ -33,7 +36,7 @@ def part1(data: list[str]) -> str | int | float | None:
   return "No matching Aunt Sue found"
 
 
-def part2(data: list[str]) -> str | int | float | None:
+def part2(data: list[str]) -> Solution:
   cache: dict[int, dict[str, int]] = {}
   gift_sender: dict[str, int] = {
     "children": 3,

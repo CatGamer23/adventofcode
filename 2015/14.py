@@ -1,4 +1,7 @@
-def part1(data: list[str]) -> str | int | float | None:
+from main import Solution
+
+
+def part1(data: list[str]) -> Solution:
   computed_data: dict[str, dict[str, int]] = {}
 
   for line in data:
@@ -33,7 +36,7 @@ def part1(data: list[str]) -> str | int | float | None:
   return furthest_distance
 
 
-def part2(data: list[str]) -> str | int | float | None:
+def part2(data: list[str]) -> Solution:
   computed_data: dict[str, dict[str, int]] = {}
 
   for line in data:
@@ -54,7 +57,7 @@ def part2(data: list[str]) -> str | int | float | None:
 
   # Simulate the race and add a point to the leading reindeer per second
   for second in range(2503):
-    for reindeer, stats in computed_data.items():
+    for stats in computed_data.values():
       cycle_time: int = stats["cycle_time"]
       distance_per_cycle: int = stats["distance_per_cycle"]
       speed: int = stats["speed"]

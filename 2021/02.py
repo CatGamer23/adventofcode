@@ -1,4 +1,7 @@
-def part1(data: list[str]) -> str | int | float | None:
+from main import Solution
+
+
+def part1(data: list[str]) -> Solution:
   pos, depth = 0, 0
   for instruction in data:
     if instruction.startswith("forward"):
@@ -10,7 +13,7 @@ def part1(data: list[str]) -> str | int | float | None:
   return pos * depth
 
 
-def part2(data: list[str]) -> str | int | float | None:
+def part2(data: list[str]) -> Solution:
   pos, depth, aim = 0, 0, 0
   for instruction in data:
     if instruction.startswith("forward"):

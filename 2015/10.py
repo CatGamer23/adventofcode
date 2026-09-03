@@ -1,7 +1,9 @@
 import itertools
 
+from main import Solution
 
-def part1(data: list[str]) -> str | int | float | None:
+
+def part1(data: list[str]) -> Solution:
   sequence: str = data[0]
 
   for _ in range(40):
@@ -14,7 +16,7 @@ def part1(data: list[str]) -> str | int | float | None:
   return len(sequence)
 
 
-def part2(data: list[str]) -> str | int | float | None:
+def part2(data: list[str]) -> Solution:
   sequence: str = data[0]
 
   for _ in range(50):

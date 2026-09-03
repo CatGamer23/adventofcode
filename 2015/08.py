@@ -1,4 +1,7 @@
-def part1(data: list[str]) -> str | int | float | None:
+from main import Solution
+
+
+def part1(data: list[str]) -> Solution:
   total_characters: int = 0
   total_interpreted: int = 0
 
@@ -9,5 +12,5 @@ def part1(data: list[str]) -> str | int | float | None:
   return total_characters - total_interpreted
 
 
-def part2(data: list[str]) -> str | int | float | None:
+def part2(data: list[str]) -> Solution:
   return sum(2 + line.count("\\") + line.count('"') for line in data)

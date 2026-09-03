@@ -1,6 +1,8 @@
 from dataclasses import dataclass
 from itertools import combinations, product
 
+from main import Solution
+
 
 @dataclass
 class Item:
@@ -34,7 +36,7 @@ items: list[Item] = [
 ]
 
 
-def part1(data: list[str]) -> str | int | float | None:
+def part1(data: list[str]) -> Solution:
   boss_hp: int = int(data[0].split(": ")[1])
   boss_damage: int = int(data[1].split(": ")[1])
   boss_armor: int = int(data[2].split(": ")[1])
@@ -58,7 +60,7 @@ def part1(data: list[str]) -> str | int | float | None:
   return min_cost
 
 
-def part2(data: list[str]) -> str | int | float | None:
+def part2(data: list[str]) -> Solution:
   boss_hp: int = int(data[0].split(": ")[1])
   boss_damage: int = int(data[1].split(": ")[1])
   boss_armor: int = int(data[2].split(": ")[1])

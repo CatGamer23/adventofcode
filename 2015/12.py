@@ -1,6 +1,8 @@
 import json
 from typing import Any
 
+from main import Solution
+
 
 def find_numbers(obj: Any, ignored_value: str | None = None) -> int:
   if isinstance(obj, int):
@@ -14,14 +16,14 @@ def find_numbers(obj: Any, ignored_value: str | None = None) -> int:
   return 0
 
 
-def part1(data: list[str]) -> str | int | float | None:
+def part1(data: list[str]) -> Solution:
   parsed_json_data: Any = json.loads("".join(data))
 
   # Recursively search for numbers
   return find_numbers(parsed_json_data)
 
 
-def part2(data: list[str]) -> str | int | float | None:
+def part2(data: list[str]) -> Solution:
   parsed_json_data: Any = json.loads("".join(data))
 
   # Recursively search for numbers, ignoring the property "red"

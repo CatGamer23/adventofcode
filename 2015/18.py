@@ -2,8 +2,10 @@ from typing import Any
 
 import numpy as np
 
+from main import Solution
 
-def part1(data: list[str]) -> str | int | float | None:
+
+def part1(data: list[str]) -> Solution:
   grid: np.ndarray[Any, np.dtype[np.int32]] = np.array(
     [[char == "#" for char in row] for row in data], dtype=np.int32
   )
@@ -16,16 +18,19 @@ def part1(data: list[str]) -> str | int | float | None:
           grid[max(0, row - 1) : row + 2, max(0, col - 1) : col + 2].sum()
           - grid[row, col]
         )
-        if grid[row, col] == 1 and active_neighbors in (2, 3):
-          next_grid[row, col] = 1
-        elif grid[row, col] == 0 and active_neighbors == 3:
+        if (
+          grid[row, col] == 1
+          and active_neighbors in (2, 3)
+          or grid[row, col] == 0
+          and active_neighbors == 3
+        ):
           next_grid[row, col] = 1
     grid: np.ndarray[tuple[Any, ...], np.dtype[np.int32]] = next_grid
 
-  return grid.sum()
+  return int(grid.sum())
 
 
-def part2(data: list[str]) -> str | int | float | None:
+def part2(data: list[str]) -> Solution:
   grid: np.ndarray[Any, np.dtype[np.int32]] = np.array(
     [[char == "#" for char in row] for row in data], dtype=np.int32
   )
@@ -38,9 +43,12 @@ def part2(data: list[str]) -> str | int | float | None:
           grid[max(0, row - 1) : row + 2, max(0, col - 1) : col + 2].sum()
           - grid[row, col]
         )
-        if grid[row, col] == 1 and active_neighbors in (2, 3):
-          next_grid[row, col] = 1
-        elif grid[row, col] == 0 and active_neighbors == 3:
+        if (
+          grid[row, col] == 1
+          and active_neighbors in (2, 3)
+          or grid[row, col] == 0
+          and active_neighbors == 3
+        ):
           next_grid[row, col] = 1
 
     next_grid[0, 0] = 1
@@ -49,4 +57,4 @@ def part2(data: list[str]) -> str | int | float | None:
     next_grid[-1, -1] = 1
     grid: np.ndarray[tuple[Any, ...], np.dtype[np.int32]] = next_grid
 
-  return grid.sum()
+  return int(grid.sum())

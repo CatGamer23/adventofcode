@@ -1,5 +1,7 @@
 import math
 
+from main import Solution
+
 
 def get_divisors(number: int) -> set[int]:
   return {
@@ -10,14 +12,14 @@ def get_divisors(number: int) -> set[int]:
   }
 
 
-def part1(data: list[str]) -> str | int | float | None:
+def part1(data: list[str]) -> Solution:
   for i in range(100000, 1000000):
     if sum(get_divisors(i)) * 10 >= int(data[0]):
       return i
   return None
 
 
-def part2(data: list[str]) -> str | int | float | None:
+def part2(data: list[str]) -> Solution:
   for i in range(100000, 1000000):
     if sum(elf for elf in get_divisors(i) if i // elf <= 50) * 11 >= int(data[0]):
       return i

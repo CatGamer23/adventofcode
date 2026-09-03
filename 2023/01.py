@@ -1,4 +1,7 @@
-def part1(data: list[str]) -> str | int | float | None:
+from main import Solution
+
+
+def part1(data: list[str]) -> Solution :
   total = 0
   for line in data:
     num: str = "".join(char for char in line if char.isdigit())
@@ -8,7 +11,7 @@ def part1(data: list[str]) -> str | int | float | None:
   return total
 
 
-def part2(data: list[str]) -> str | int | float | None:
+def part2(data: list[str]) -> Solution:
   # conversionTable: dict[str, str] = {
   #   "one": "1",
   #   "two": "2",

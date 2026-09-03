@@ -1,8 +1,11 @@
 from typing import Any
+
 import numpy as np
 
+from main import Solution
 
-def part1(data: list[str]) -> str | int | float | None:
+
+def part1(data: list[str]) -> Solution:
   grid: np.ndarray[tuple[int, int], np.dtype[Any]] = np.zeros((1000, 1000), dtype=int)
 
   for line in data:
@@ -21,7 +24,7 @@ def part1(data: list[str]) -> str | int | float | None:
   return int(np.sum(grid))
 
 
-def part2(data: list[str]) -> str | int | float | None:
+def part2(data: list[str]) -> Solution:
   grid: np.ndarray[tuple[int, int], np.dtype[Any]] = np.zeros((1000, 1000), dtype=int)
 
   for line in data:

@@ -1,5 +1,7 @@
 from string import ascii_lowercase
 
+from main import Solution
+
 
 def from_decimal(value: int, base: int = 26) -> str:
   digits: list[str] = []
@@ -21,7 +23,7 @@ def to_decimal(string: str, base: int = 26) -> int:
 # 1. It does not contain the letters i, o, or l.
 # 2. It contains the straight increasing three letters.
 # 3. It contains at least two different, non-overlapping pairs of letters.
-def part1(data: list[str]) -> str | int | float | None:
+def part1(data: list[str]) -> Solution:
   data_as_int: int = to_decimal(data[0])
 
   invalid_password: bool = True
@@ -58,7 +60,7 @@ def part1(data: list[str]) -> str | int | float | None:
   return from_decimal(data_as_int)
 
 
-def part2(data: list[str]) -> str | int | float | None:
+def part2(data: list[str]) -> Solution:
   data_as_int: int = to_decimal(str(part1(data)))
 
   invalid_password: bool = True

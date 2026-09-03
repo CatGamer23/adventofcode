@@ -1,7 +1,9 @@
 import itertools
 
+from main import Solution
 
-def part1(data: list[str]) -> str | int | float | None:
+
+def part1(data: list[str]) -> Solution:
   people_cache: dict[str, dict[str, int]] = {}
 
   for line in data:
@@ -28,7 +30,7 @@ def part1(data: list[str]) -> str | int | float | None:
   return biggest_change
 
 
-def part2(data: list[str]) -> str | int | float | None:
+def part2(data: list[str]) -> Solution:
   people_cache: dict[str, dict[str, int]] = {"Me": {}}
 
   for line in data:

@@ -1,13 +1,15 @@
 from itertools import groupby
 
+from main import Solution
 
-def part1(data: list[str]) -> str | int | float | None:
+
+def part1(data: list[str]) -> Solution:
   largest = 0
-  reformattedData: list[list[str]] = [
+  reformatted_data: list[list[str]] = [
     list(group) for key, group in groupby(data, key=lambda x: x == "") if not key
   ]
 
-  for subList in reformattedData:
+  for subList in reformatted_data:
     total = 0
     for calorie in subList:
       total += int(calorie)
@@ -16,19 +18,19 @@ def part1(data: list[str]) -> str | int | float | None:
   return largest
 
 
-def part2(data: list[str]) -> str | int | float | None:
-  finaltotal = 0
-  totalsList: list[int] = []
-  reformattedData: list[list[str]] = [
+def part2(data: list[str]) -> Solution:
+  final_total = 0
+  totals_list: list[int] = []
+  reformatted_data: list[list[str]] = [
     list(group) for key, group in groupby(data, key=lambda x: x == "") if not key
   ]
 
-  totalsList.extend(
-    sum(int(calorie) for calorie in subList) for subList in reformattedData
+  totals_list.extend(
+    sum(int(calorie) for calorie in subList) for subList in reformatted_data
   )
-  totalsList.sort()
+  totals_list.sort()
 
-  for i in totalsList[-3:]:
-    finaltotal += i
+  for i in totals_list[-3:]:
+    final_total += i
 
-  return finaltotal
+  return final_total

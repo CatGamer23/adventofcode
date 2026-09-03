@@ -1,3 +1,5 @@
+from main import Solution
+
 translateList: dict[str, str] = {
   "A": "Rock",
   "B": "Paper",
@@ -14,25 +16,25 @@ winningMoves: dict[str, str] = {
 }
 
 
-def part1(data: list[str]) -> str | int | float | None:
+def part1(data: list[str]) -> Solution:
   score = 0
   for gameRound in data:
-    bothMoves: list[str] = gameRound.split(" ")
-    opponentMove: str = translateList[bothMoves[0]]
-    yourMove: str = translateList[bothMoves[1]]
+    both_moves: list[str] = gameRound.split(" ")
+    opponent_move: str = translateList[both_moves[0]]
+    your_move: str = translateList[both_moves[1]]
 
-    score += movePoints[yourMove]
-    if opponentMove == yourMove:
+    score += movePoints[your_move]
+    if opponent_move == your_move:
       score += 3
-    elif winningMoves[opponentMove] == yourMove:
+    elif winningMoves[opponent_move] == your_move:
       score += 6
 
   return score
 
 
-def part2(data: list[str]) -> str | int | float | None:
-  actionsList: dict[str, str] = {"X": "Lose", "Y": "Draw", "Z": "Win"}
-  losingMoves: dict[str, str] = {
+def part2(data: list[str]) -> Solution:
+  actions_list: dict[str, str] = {"X": "Lose", "Y": "Draw", "Z": "Win"}
+  losing_moves: dict[str, str] = {
     "Rock": "Scissors",
     "Paper": "Rock",
     "Scissors": "Paper",
@@ -40,21 +42,22 @@ def part2(data: list[str]) -> str | int | float | None:
   score = 0
 
   for gameRound in data:
-    bothMoves: list[str] = gameRound.split(" ")
-    opponentMove: str = translateList[bothMoves[0]]
-    yourAction: str = actionsList[bothMoves[1]]
+    both_moves: list[str] = gameRound.split(" ")
+    opponent_move: str = translateList[both_moves[0]]
+    your_action: str = actions_list[both_moves[1]]
+    your_move: str = ""
 
-    if yourAction == "Draw":
-      yourMove: str = opponentMove
-    elif yourAction == "Lose":
-      yourMove: str = losingMoves[opponentMove]
-    elif yourAction == "Win":
-      yourMove: str = winningMoves[opponentMove]
+    if your_action == "Draw":
+      your_move: str = opponent_move
+    elif your_action == "Lose":
+      your_move: str = losing_moves[opponent_move]
+    elif your_action == "Win":
+      your_move: str = winningMoves[opponent_move]
 
-    score += movePoints[yourMove]
-    if opponentMove == yourMove:
+    score += movePoints[your_move]
+    if opponent_move == your_move:
       score += 3
-    elif winningMoves[opponentMove] == yourMove:
+    elif winningMoves[opponent_move] == your_move:
       score += 6
 
   return score
