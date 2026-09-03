@@ -87,8 +87,8 @@ def run_part(part_number: int, module: ModuleType, input_data: list[str]) -> flo
 
 
 # Get input data
-def get_input_data(day_padded: str, year: int) -> list[str]:
-  input_file_path = f"./{year}/Inputs/Day {day_padded} Input.txt"
+def get_input_data(day_padded: str, input_year: int) -> list[str]:
+  input_file_path = f"./{input_year}/Inputs/Day {day_padded} Input.txt"
 
   with open(input_file_path, "r") as input_file:
     data_lines: list[str] = [line.rstrip() for line in input_file]
@@ -97,11 +97,11 @@ def get_input_data(day_padded: str, year: int) -> list[str]:
 
 
 # Execute the challenge for the selected day and year
-def execute_challenge(day_padded: str, year: int) -> None:
-  print(f"AoC {year} - Day {day_padded}\n")
+def execute_challenge(day_padded: str, execute_year: int) -> None:
+  print(f"AoC {execute_year} - Day {day_padded}\n")
 
-  module: ModuleType = importlib.import_module(name=f"{year}.{day_padded}")
-  input_data: list[str] = get_input_data(day_padded, year)
+  module: ModuleType = importlib.import_module(name=f"{execute_year}.{day_padded}")
+  input_data: list[str] = get_input_data(day_padded, execute_year)
 
   part1_time: float = run_part(1, module, input_data)
   part2_time: float = run_part(2, module, input_data)
@@ -112,16 +112,16 @@ def execute_challenge(day_padded: str, year: int) -> None:
 
 # region File Structure Setup
 # Pull input file for user from AoC
-def download_input_file(year: int, day: int, input_file: str) -> None:
+def download_input_file(download_year: int, download_day: int, input_file: str) -> None:
   if session_cookie is None:
     raise ValueError("Session cookie is not set")
 
   response = requests.get(
-    input_url.format(year, day), cookies={"session": session_cookie}
+    input_url.format(download_year, download_day), cookies={"session": session_cookie}
   )
 
   if response.status_code == 404:
-    raise ConnectionRefusedError(f"Day {day}, {year} is locked")
+    raise ConnectionRefusedError(f"Day {download_day}, {download_year} is locked")
 
   if response.text.startswith("<!DOCTYPE html>"):
     raise ValueError("Invalid session cookie or captcha required")
