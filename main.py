@@ -7,7 +7,6 @@ import itertools
 import os
 import subprocess
 import time
-from collections.abc import Callable
 from stat import S_IREAD
 from types import ModuleType
 
