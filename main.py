@@ -17,8 +17,6 @@ from dotenv import load_dotenv
 # Load environment variables from a .env file
 load_dotenv()
 
-current_year: int = datetime.datetime.now(tz=datetime.UTC).year
-
 # Parse command line arguments
 parser = argparse.ArgumentParser(description="Run Advent of Code challenges.")
 parser.add_argument(
@@ -28,124 +26,94 @@ parser.add_argument(
   "-y",
   "--year",
   type=int,
-  default=current_year,
   help="Specify the year of the challenge (2015-current).",
 )
 parser.add_argument(
   "-s",
   "--setup",
-  type=bool,
   action="store_true",
   help="Set up the directory structure and files.",
 )
-args = parser.parse_args()
-
-# Type alias for the expected signature of any AoC solver function
-type Solution = str | int | float | None
-type Solver = Callable[[list[str]], Solution]
+args: argparse.Namespace = parser.parse_args()
 
 # Set global variables
+type Solution = str | int | float | None
+current_year: int = datetime.datetime.now(tz=datetime.UTC).year
 session_cookie: str | None = os.getenv(key="AOC_COOKIE")
 input_url = "https://adventofcode.com/{}/day/{}/input"
-default_code_template = """def part1(data: list[str]) -> Solution:
+default_code_template = """from main import Solution
+
+
+def part1(data: list[str]) -> Solution
     return None
 
 def part2(data: list[str]) -> Solution:
     return None"""
 
 
-# Format execution time in a human-readable format
-def format_executiontime(milliseconds: float) -> str:
-  if milliseconds < 1:  # < 1 millisecond (microseconds)
-    return f"{round(milliseconds * 1000)}µs"
-  elif milliseconds < 1000:  # < 1 second (milliseconds)
-    return f"{round(milliseconds)}ms"
-  elif milliseconds < 60000:  # < 1 minute (seconds)
-    return f"{round(milliseconds / 1000, 2)}s"
-  elif milliseconds < 3600000:  # < 1 hour (minutes and seconds)
-    minutes, seconds = divmod(milliseconds / 1000, 60)
-    return f"{int(minutes)}m {round(seconds, 2)}s"
+# Format time in a human-readable format
+def format_time(ms: float) -> str:
+  if ms < 0.01:  # < 10 microseconds (Immediately terminated)
+    return "N/A"
+  elif ms < 1:  # < 1 millisecond (microseconds)
+    return f"{round(ms * 1000):.0f}µs"
+  elif ms < 1000:  # < 1 second (milliseconds)
+    return f"{round(ms)}ms"
+  elif ms < 60000:  # < 1 minute (seconds)
+    return f"{round(ms / 1000, 2)}s"
+  elif ms < 3600000:  # < 1 hour (minutes and seconds)
+    minutes, seconds = divmod(ms / 1000, 60)
+    return f"{int(minutes)}m {seconds:.2f}s"
   else:  # >= 1 hour
     return "You took way too long to solve this problem..."
 
 
 # Run specific part for a given day and year
-def run_part(
-  part_number: int, module: ModuleType, input_data: list[str]
-) -> float | None:
+def run_part(part_number: int, module: ModuleType, input_data: list[str]) -> float:
   part_function = getattr(module, f"part{part_number}", None)
+
   if not callable(part_function):
     print(f"No part{part_number} function")
-    return None
+    return 0.0
 
   print(f"Running Part {part_number}")
-  start_time = time.perf_counter()
+  start_time: float = time.perf_counter()
   result: Solution = part_function(input_data)
-  end_time = time.perf_counter()
+  end_time: float = time.perf_counter()
 
   print(f"Output: {result}")
-  execution_time = (end_time - start_time) * 1000  # sec -> ms
-  print(f"Took {format_executiontime(milliseconds=execution_time)}\n")
+  execution_time: float = (end_time - start_time) * 1000  # sec -> ms
+  print(f"Took: {format_time(execution_time)}")
   return execution_time
 
 
 # Get input data
 def get_input_data(day_padded: str, year: int) -> list[str]:
   input_file_path = f"./{year}/Inputs/Day {day_padded} Input.txt"
-  try:
-    with open(file=input_file_path, mode="r") as input_file:
-      data_lines = [line.rstrip() for line in input_file]
-  except Exception as error:
-    raise PermissionError(f"Unable to read file {input_file_path}") from error
+
+  with open(input_file_path, "r") as input_file:
+    data_lines: list[str] = [line.rstrip() for line in input_file]
 
   return data_lines
 
 
 # Execute the challenge for the selected day and year
-def execute_challenge(day_padded: str, year: int):
+def execute_challenge(day_padded: str, year: int) -> None:
   print(f"AoC {year} - Day {day_padded}\n")
 
   module: ModuleType = importlib.import_module(name=f"{year}.{day_padded}")
-  input_data = get_input_data(day_padded, year)
+  input_data: list[str] = get_input_data(day_padded, year)
 
-  part1_time: float = run_part(part_number=1, module=module, input_data=input_data) or 0
-  part2_time: float = run_part(part_number=2, module=module, input_data=input_data) or 0
+  part1_time: float = run_part(1, module, input_data)
+  part2_time: float = run_part(2, module, input_data)
   total_time: float = part1_time + part2_time
-  print(
-    f"Total runtime: {format_executiontime(milliseconds=total_time) if total_time else 'N/A'}"
-  )
+
+  print(f"Total runtime: {format_time(total_time)}")
 
 
-# Run the challenge for the selected year
-def run(selected_year: int | None = None, selected_day: int | None = None):
-  year = selected_year or args.year
-  day = selected_day or args.day or int(input("Day: ").strip())
-
-  try:
-    if not (1 <= day <= 25):
-      raise ValueError("Day must be a number between 1 and 25")
-
-    subprocess.run(
-      args="cls" if os.name == "nt" else ["clear"], shell=True, check=False
-    )
-    execute_challenge(day_padded=str(day).zfill(2), year=year)
-
-  except KeyboardInterrupt:
-    print("\nExiting...")
-
-  except Exception as error:
-    raise RuntimeError(f"An error occurred: {type(error).__name__}: {error}") from error
-
-
-# Create a file with default code template if it does not exist
-def create_file_if_not_exists(file_path: str):
-  if not os.path.exists(file_path):
-    with open(file=file_path, mode="w") as file:
-      file.write(default_code_template)
-
-
-# Download the input file for a given day and year
-def download_input_file(year: int, day: int, input_file: str):
+# region File Structure Setup
+# Pull input file for user from AoC
+def download_input_file(year: int, day: int, input_file: str) -> None:
   if session_cookie is None:
     raise ValueError("Session cookie is not set")
 
@@ -159,36 +127,52 @@ def download_input_file(year: int, day: int, input_file: str):
   if response.text.startswith("<!DOCTYPE html>"):
     raise ValueError("Invalid session cookie or captcha required")
 
-  with open(input_file, mode="w") as file:
+  with open(input_file, "w") as file:
     file.write(response.text.rstrip())
 
-  os.chmod(path=input_file, mode=S_IREAD)
+  os.chmod(input_file, S_IREAD)
+
+
+# Create a file with default code template if it does not exist
+def create_file_if_not_exists(file_path: str) -> None:
+  if not os.path.exists(file_path):
+    with open(file_path, "w") as file:
+      file.write(default_code_template)
 
 
 # Set up the directory structure and files
-def setup():
-  for year, day in itertools.product(range(2015, current_year), range(1, 26)):
-    day_padded = str(day).zfill(2)
+def setup() -> None:
+  for setup_year, setup_day in itertools.product(
+    range(2015, current_year), range(1, 26)
+  ):
+    day_padded = str(setup_day).zfill(2)
 
-    day_file = f"./{year}/{day_padded}.py"
-    input_file = f"./{year}/Inputs/Day {day_padded} Input.txt"
+    day_file = f"./{setup_year}/{day_padded}.py"
+    input_file = f"./{setup_year}/Inputs/Day {day_padded} Input.txt"
 
-    os.makedirs(name=f"./{year}/Inputs/", exist_ok=True)
+    os.makedirs(f"{setup_year}/Inputs/", exist_ok=True)
+    create_file_if_not_exists(day_file)
 
-    create_file_if_not_exists(file_path=day_file)
-
-    if not os.path.exists(path=input_file):
-      try:
-        download_input_file(year, day, input_file)
-      except ConnectionRefusedError as e:
-        print(e)
-        break
+    if not os.path.exists(input_file):
+      download_input_file(setup_year, setup_day, input_file)
 
 
-# ------------------------ RUN CODE BELOW ------------------------
+# endregion File Structure Setup
+
+
 if __name__ == "__main__":
-  subprocess.run(args="cls" if os.name == "nt" else ["clear"], shell=True, check=False)
   if args.setup:
     setup()
   else:
-    run()
+    year: int = args.year or current_year
+    day: int = args.day or int(input("Day: ").strip())
+
+    try:
+      if not (1 <= day <= 25):
+        raise ValueError("Day must be a number between 1 and 25")
+
+      subprocess.run(["clear"], check=False)
+      execute_challenge(str(day).zfill(2), year)
+
+    except KeyboardInterrupt:
+      print("\nExiting...")
