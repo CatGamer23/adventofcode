@@ -7,6 +7,7 @@ import itertools
 import os
 import subprocess
 import time
+from collections.abc import Callable
 from stat import S_IREAD
 from types import ModuleType
 
@@ -69,7 +70,7 @@ def format_time(ms: float) -> str:
 
 # Run specific part for a given day and year
 def run_part(part_number: int, module: ModuleType, input_data: list[str]) -> float:
-  part_function = getattr(module, f"part{part_number}", None)
+  part_function: Callable | None = getattr(module, f"part{part_number}", None)
 
   if not callable(part_function):
     print(f"No part{part_number} function")
