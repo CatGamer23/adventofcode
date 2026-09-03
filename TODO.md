@@ -2,8 +2,6 @@
 
 #### Improvements for main.py
 
-- Remove duplicate syscalls to clear screen
-- Make `default_code_template` take less space
 - Be more pythonic
 
 #### Additional Notes
