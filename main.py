@@ -1,6 +1,5 @@
 #!/usr/bin/env uv run
 
-# RUN AT END OF FILE, NOT HERE
 import argparse
 import datetime
 import importlib
@@ -16,10 +15,9 @@ import requests
 from dotenv import load_dotenv
 
 # Load environment variables from a .env file
-# Currently only used for AOC_COOKIE
 load_dotenv()
 
-current_year = datetime.datetime.now(tz=datetime.UTC).year
+current_year: int = datetime.datetime.now(tz=datetime.UTC).year
 
 # Parse command line arguments
 parser = argparse.ArgumentParser(description="Run Advent of Code challenges.")
@@ -47,7 +45,7 @@ type Solution = str | int | float | None
 type Solver = Callable[[list[str]], Solution]
 
 # Set global variables
-session_cookie = os.getenv(key="AOC_COOKIE")  # .format(year, day)
+session_cookie: str | None = os.getenv(key="AOC_COOKIE")
 input_url = "https://adventofcode.com/{}/day/{}/input"
 default_code_template = """def part1(data: list[str]) -> Solution:
     return None
@@ -57,7 +55,7 @@ def part2(data: list[str]) -> Solution:
 
 
 # Format execution time in a human-readable format
-def format_executiontime(milliseconds):
+def format_executiontime(milliseconds: float) -> str:
   if milliseconds < 1:  # < 1 millisecond (microseconds)
     return f"{round(milliseconds * 1000)}µs"
   elif milliseconds < 1000:  # < 1 second (milliseconds)
@@ -72,7 +70,9 @@ def format_executiontime(milliseconds):
 
 
 # Run specific part for a given day and year
-def run_part(part_number: Solver, module, input_data):
+def run_part(
+  part_number: int, module: ModuleType, input_data: list[str]
+) -> float | None:
   part_function = getattr(module, f"part{part_number}", None)
   if not callable(part_function):
     print(f"No part{part_number} function")
@@ -80,7 +80,7 @@ def run_part(part_number: Solver, module, input_data):
 
   print(f"Running Part {part_number}")
   start_time = time.perf_counter()
-  result = part_function(input_data)
+  result: Solution = part_function(input_data)
   end_time = time.perf_counter()
 
   print(f"Output: {result}")
@@ -90,7 +90,7 @@ def run_part(part_number: Solver, module, input_data):
 
 
 # Get input data
-def get_input_data(day_padded, year):
+def get_input_data(day_padded: str, year: int) -> list[str]:
   input_file_path = f"./{year}/Inputs/Day {day_padded} Input.txt"
   try:
     with open(file=input_file_path, mode="r") as input_file:
@@ -98,27 +98,26 @@ def get_input_data(day_padded, year):
   except Exception as error:
     raise PermissionError(f"Unable to read file {input_file_path}") from error
 
-  # print(f"Loaded puzzle input from {input_file_path}\n")
   return data_lines
 
 
 # Execute the challenge for the selected day and year
-def execute_challenge(day_padded, year):
+def execute_challenge(day_padded: str, year: int):
   print(f"AoC {year} - Day {day_padded}\n")
 
   module: ModuleType = importlib.import_module(name=f"{year}.{day_padded}")
   input_data = get_input_data(day_padded, year)
 
-  part1_time = run_part(part_number=1, module=module, input_data=input_data) or 0
-  part2_time = run_part(part_number=2, module=module, input_data=input_data) or 0
-  total_time = part1_time + part2_time
+  part1_time: float = run_part(part_number=1, module=module, input_data=input_data) or 0
+  part2_time: float = run_part(part_number=2, module=module, input_data=input_data) or 0
+  total_time: float = part1_time + part2_time
   print(
     f"Total runtime: {format_executiontime(milliseconds=total_time) if total_time else 'N/A'}"
   )
 
 
 # Run the challenge for the selected year
-def run(selected_year=None, selected_day=None):
+def run(selected_year: int | None = None, selected_day: int | None = None):
   year = selected_year or args.year
   day = selected_day or args.day or int(input("Day: ").strip())
 
@@ -139,19 +138,19 @@ def run(selected_year=None, selected_day=None):
 
 
 # Create a file with default code template if it does not exist
-def create_file_if_not_exists(file_path):
+def create_file_if_not_exists(file_path: str):
   if not os.path.exists(file_path):
     with open(file=file_path, mode="w") as file:
       file.write(default_code_template)
 
 
 # Download the input file for a given day and year
-def download_input_file(year, day, input_file):
+def download_input_file(year: int, day: int, input_file: str):
   if session_cookie is None:
     raise ValueError("Session cookie is not set")
 
   response = requests.get(
-    input_url.format(year, int(day)), cookies={"session": session_cookie}
+    input_url.format(year, day), cookies={"session": session_cookie}
   )
 
   if response.status_code == 404:
@@ -168,21 +167,6 @@ def download_input_file(year, day, input_file):
 
 # Set up the directory structure and files
 def setup():
-  """
-  Sets up the directory structure and files for Advent of Code challenges from 2015 to the current year.
-  This function performs the following steps:
-    1. Iterates over each year from 2015 to the current year and each day from 1 to 25.
-    2. Creates directories for each year and for input files if they do not already exist.
-    3. Creates a Python file for each day if it does not already exist, writing default code into it.
-    4. Downloads the input file for each day from the Advent of Code website if it does not already exist.
-    5. Sets the input file to read-only.
-  Note:
-    - The function assumes the existence of global variables: `current_year`, `default_code_template`, `input_url`, and `session_cookie`.
-    - The function uses the `requests` library to download input files and `os` library for file and directory operations.
-    - If the input file for a specific day is locked (HTTP 404), the function will print a message and stop processing further days for that year.
-  Raises:
-    - Any exceptions raised by `requests.get` or file operations are not explicitly handled within this function.
-  """
   for year, day in itertools.product(range(2015, current_year), range(1, 26)):
     day_padded = str(day).zfill(2)
 
@@ -195,7 +179,7 @@ def setup():
 
     if not os.path.exists(path=input_file):
       try:
-        download_input_file(year, day_padded, input_file)
+        download_input_file(year, day, input_file)
       except ConnectionRefusedError as e:
         print(e)
         break
