@@ -44,7 +44,7 @@ input_url = "https://adventofcode.com/{}/day/{}/input"
 default_code_template = """from main import Solution
 
 
-def part1(data: list[str]) -> Solution
+def part1(data: list[str]) -> Solution:
     return None
 
 def part2(data: list[str]) -> Solution:
