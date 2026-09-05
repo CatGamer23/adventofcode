@@ -1,10 +1,12 @@
 # Advent of Code
 
-Welcome to my Advent of Code solutions repository. This repository contains my solutions for the Advent of Code challenges.
+Welcome to my Advent of Code solutions repository. This repository contains my solutions for the Advent of Code
+challenges.
 
 ## About Advent of Code
 
-[Advent of Code](https://adventofcode.com/) is an annual coding challenge event that takes place in December. Each day, a new challenge is released, and participants work to solve the puzzles using their programming skills.
+[Advent of Code](https://adventofcode.com/) is an annual coding challenge event that takes place in December. Each day,
+a new challenge is released, and participants work to solve the puzzles using their programming skills.
 
 ## First Time Setup
 
@@ -20,15 +22,16 @@ cd adventofcode
 2. Install the required dependencies:
 
 ```sh
-pip install -r requirements.txt
+uv sync
 ```
 
 3. (**Important**) Delete all input files to avoid incorrect answers, as each input is unique per user.
 
+*Linux/MacOS:*
+
 ```sh
 find . -type d -name 'Inputs' -exec rm -rf {} +
 ```
-
 
 4. Add your Advent of Code session cookie to a `.env` file:
 
@@ -48,7 +51,8 @@ python main.py -s
 
 ## Running the Solutions
 
-To run the main script, navigate to the root directory and execute `main.py` with the appropriate command-line arguments. For example:
+To run the main script, navigate to the root directory and execute `main.py` with the appropriate command-line
+arguments. For example:
 
 ```sh
 python main.py --year 2021 --day 1
@@ -58,11 +62,13 @@ Here are the available command-line arguments:
 
 - `--year` (`-y`): The year of the challenge (e.g., 2021).
 - `--day` (`-d`): The day of the challenge (e.g., 1).
-- `--setup` (`-s`): (Optional) Set up the environment for a specific year and day. For example, it can create necessary directories and download input files.
+- `--setup` (`-s`): (Optional) Set up the environment for a specific year and day. For example, it can create necessary
+  directories and download input files.
 
 ## Structure
 
-Each year's solutions are organized into separate directories. Each directory contains the solutions for that year's challenges.
+Each year's solutions are organized into separate directories. Each directory contains the solutions for that year's
+challenges.
 
 ```
 .
@@ -85,7 +91,7 @@ Each year's solutions are organized into separate directories. Each directory co
 ├── LICENSE
 ├── main.py
 ├── README.md
-├── requirements.txt
+├── pyproject.toml
 └── TODO.md
 ```
 
